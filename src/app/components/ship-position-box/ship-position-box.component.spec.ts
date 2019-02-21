@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ShipPositionBoxComponent} from './ship-position-box.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('ShipPositionBoxComponent', () => {
   let component: ShipPositionBoxComponent;
@@ -8,6 +9,7 @@ describe('ShipPositionBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [FormsModule, ReactiveFormsModule],
       declarations: [ShipPositionBoxComponent]
     })
       .compileComponents();

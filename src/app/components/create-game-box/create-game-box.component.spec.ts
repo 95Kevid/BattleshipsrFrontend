@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CreateGameBoxComponent} from './create-game-box.component';
+import {Form, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('CreateGameBoxComponent', () => {
   let component: CreateGameBoxComponent;
@@ -8,6 +9,7 @@ describe('CreateGameBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [FormsModule, ReactiveFormsModule],
       declarations: [CreateGameBoxComponent]
     })
       .compileComponents();

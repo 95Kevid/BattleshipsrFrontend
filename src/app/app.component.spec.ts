@@ -1,7 +1,19 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
+import {GameControlComponent} from './containers/game-control/game-control.component';
+import {CreateGameBoxComponent} from './components/create-game-box/create-game-box.component';
+import {CreatePlayerBoxComponent} from './components/create-player-box/create-player-box.component';
+import {GameGridComponent} from './containers/grid/game-grid/game-grid.component';
 import {ShipPositionComponent} from './containers/ship-placing/ship-position.component.';
+import {GameStatusBoxComponent} from './components/game-status-box/game-status-box/game-status-box.component';
 import {GridBoxComponent} from './components/grid/grid-box.component';
+import {ShipPositionBoxComponent} from './components/ship-position-box/ship-position-box.component';
+import {GameControlBoxComponent} from './components/game-status-box/game-control-box/game-control-box.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './store';
+
 
 describe('AppComponent', () => {
 
@@ -10,10 +22,22 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        StoreModule.forRoot(reducers)],
       declarations: [
         AppComponent,
+        GameControlComponent,
+        GameControlBoxComponent,
+        CreateGameBoxComponent,
+        CreatePlayerBoxComponent,
+        GameGridComponent,
         ShipPositionComponent,
-        GridBoxComponent
+        GameStatusBoxComponent,
+        GameGridComponent,
+        GridBoxComponent,
+        ShipPositionBoxComponent
       ],
     });
 
@@ -22,7 +46,7 @@ describe('AppComponent', () => {
   });
 
   it('should create the app', () => {
-    const app = fixture.debugElement.componentInstance;
+    const app = component;
     expect(app).toBeTruthy();
   });
 

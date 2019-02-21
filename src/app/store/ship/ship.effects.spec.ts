@@ -3,6 +3,7 @@ import {provideMockActions} from '@ngrx/effects/testing';
 import {Observable} from 'rxjs';
 
 import {ShipEffects} from './ship.effects';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('ShipEffects', () => {
   let actions$: Observable<any>;
@@ -10,6 +11,7 @@ describe('ShipEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       providers: [
         ShipEffects,
         provideMockActions(() => actions$)
