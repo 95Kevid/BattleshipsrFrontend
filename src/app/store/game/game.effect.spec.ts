@@ -73,4 +73,6 @@ describe('Game effects', () => {
       expect(gameEffects.requestPlayersToPlayersReady$).toBeObservable(expectedActions$);
     });
   });
+
+  describe()
 });
