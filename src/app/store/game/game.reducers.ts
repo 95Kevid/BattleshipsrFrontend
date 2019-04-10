@@ -1,4 +1,4 @@
-import {GameActions} from './game.actions';
+import { GameActions } from "./game.actions";
 
 export interface GameState {
   playersInGame: number;
@@ -14,26 +14,29 @@ export const initialGameState: GameState = {
   playerReady: false
 };
 
-export function gameReducers(state: GameState = initialGameState, action: GameActions) {
+export function gameReducers(
+  state: GameState = initialGameState,
+  action: GameActions
+) {
   switch (action.type) {
-    case 'PLAYERS_TO_PLAYERS_READY_SUCCESS': {
-      const newState: GameState = {...state};
+    case "PLAYERS_TO_PLAYERS_READY_SUCCESS": {
+      const newState: GameState = { ...state };
       newState.playersInGame = action.payload.playersInGame;
       newState.playersReady = action.payload.playersReady;
       return newState;
     }
-    case 'GAME_CREATED': {
-      const newState: GameState = {...state};
+    case "GAME_CREATED": {
+      const newState: GameState = { ...state };
       newState.gameId = action.payload;
       return newState;
     }
-    case 'PLAYER_CREATED': {
-      const newState: GameState = {...state};
+    case "PLAYER_CREATED": {
+      const newState: GameState = { ...state };
       newState.playerId = action.payload;
       return newState;
     }
-    case 'PLAYER_READY_SUCCESS': {
-      const newState: GameState = {...state};
+    case "PLAYER_READY_SUCCESS": {
+      const newState: GameState = { ...state };
       newState.playerReady = true;
       return newState;
     }
@@ -42,4 +45,3 @@ export function gameReducers(state: GameState = initialGameState, action: GameAc
     }
   }
 }
-

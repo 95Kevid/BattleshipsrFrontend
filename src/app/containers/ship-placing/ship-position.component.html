@@ -1,0 +1,7 @@
+<app-ship-position-box
+  *ngFor="let shipType of shipTypes"
+  shipType="{{ shipType }}"
+  [tableHeaders$]="tableHeaders$"
+  [rowNumbers]="rowNumbers"
+  (shipPlacementUpdate)="placeShip($event)"
+></app-ship-position-box>

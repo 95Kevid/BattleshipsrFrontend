@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import {GameStatusBoxComponent} from './game-status-box.component';
+import { GameStatusBoxComponent } from "./game-status-box.component";
 
-describe('GameStatusBoxComponent', () => {
+describe("GameStatusBoxComponent", () => {
   let component: GameStatusBoxComponent;
   let fixture: ComponentFixture<GameStatusBoxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GameStatusBoxComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('GameStatusBoxComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

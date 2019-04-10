@@ -1,11 +1,10 @@
-import {GridParameters} from '../models/gridParameters';
-import {Cell} from '../models/cell';
-import {Row} from '../models/row';
-import {Injectable} from '@angular/core';
+import { GridParameters } from "../models/gridParameters";
+import { Cell } from "../models/cell";
+import { Row } from "../models/row";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class GameGridService {
-
   // initialiseGrid(gridSize: number): GridParameters {
   //   const gridParameters: GridParameters = new GridParameters();
   //   gridParameters.tableHeaders = [];

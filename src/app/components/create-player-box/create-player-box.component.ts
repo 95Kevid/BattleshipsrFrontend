@@ -1,15 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-create-player-box',
-  templateUrl: './create-player-box.component.html',
-  styleUrls: ['./create-player-box.component.scss']
+  selector: "app-create-player-box",
+  templateUrl: "./create-player-box.component.html",
+  styleUrls: ["./create-player-box.component.scss"]
 })
 export class CreatePlayerBoxComponent implements OnInit {
-
-  constructor() {
-  }
+  constructor() {}
 
   @Input() playerId: number;
   @Output() createPlayerRequest = new EventEmitter();
@@ -18,11 +16,12 @@ export class CreatePlayerBoxComponent implements OnInit {
   });
   formIsDisabled = false;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit() {
-    this.createPlayerRequest.emit(this.createPlayerFormGroup.controls['playerName'].value);
+    this.createPlayerRequest.emit(
+      this.createPlayerFormGroup.controls["playerName"].value
+    );
     this.disableForm();
   }
 
@@ -30,5 +29,4 @@ export class CreatePlayerBoxComponent implements OnInit {
     this.createPlayerFormGroup.disable();
     this.formIsDisabled = true;
   }
-
 }
