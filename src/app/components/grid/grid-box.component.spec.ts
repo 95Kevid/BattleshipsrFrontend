@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridBoxComponent } from './grid-box.component';
-import { ShipPositionComponent } from '../../containers/ship-placing/ship-position.component.';
 
 describe('GridBoxComponent', () => {
   let component: GridBoxComponent;
@@ -8,7 +7,7 @@ describe('GridBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GridBoxComponent, ShipPositionComponent]
+      declarations: [GridBoxComponent]
     }).compileComponents();
   }));
 

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ShipPlacingService } from '../../services/ship-placing.service';
-import { AddShipSuceededAction, ShipPlaceFailedAction } from './ship.actions';
+import {
+  AddShipRequestAction,
+  AddShipSuceededAction,
+  ShipPlaceFailedAction
+} from './ship.actions';
 import { RenderShipAction } from '../grid/grid.actions';
 import { of } from 'rxjs';
 
@@ -15,7 +19,7 @@ export class ShipEffects {
 
   @Effect()
   public addShip$ = this.actions$.pipe(
-    ofType<AddBattleshipRequestAction>('CALL_ADD_SHIP'),
+    ofType<AddShipRequestAction>('CALL_ADD_SHIP'),
     map(action => action.payload),
     switchMap(payload =>
       this.shipPlacingService.placeShip(payload).pipe(
