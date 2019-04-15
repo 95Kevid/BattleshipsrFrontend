@@ -1,23 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { GameService } from "../../services/game.service";
-import { PlayerService } from "../../services/player.service";
-import { CreateGameRequest } from "../../models/create-game-request";
-import { Store } from "@ngrx/store";
-import { InitialiseGridAction } from "../../store/grid/grid.actions";
-import { PollingService } from "../../services/polling.service";
+import { Component, OnInit } from '@angular/core';
+import { GameService } from '../../services/game.service';
+import { PlayerService } from '../../services/player.service';
+import { CreateGameRequest } from '../../models/create-game-request';
+import { Store } from '@ngrx/store';
+import { InitialiseGridAction } from '../../store/grid/grid.actions';
+import { PollingService } from '../../services/polling.service';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
   PlayerReadyRequestAction,
   PlayersToPlayersReadyPollAction
-} from "../../store/game/game.actions";
-import { Observable } from "rxjs";
-import { AppState } from "../../store";
+} from '../../store/game/game.actions';
+import { Observable } from 'rxjs';
+import { AppState } from '../../store';
 
 @Component({
-  selector: "app-game-control",
-  templateUrl: "./game-control.component.html",
-  styleUrls: ["./game-control.component.scss"]
+  selector: 'app-game-control',
+  templateUrl: './game-control.component.html',
+  styleUrls: ['./game-control.component.scss']
 })
 export class GameControlComponent implements OnInit {
   private gameService: GameService;

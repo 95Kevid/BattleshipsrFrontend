@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { GameService } from "../../services/game.service";
-import { Effect, ofType, Actions } from "@ngrx/effects";
+import { Injectable } from '@angular/core';
+import { GameService } from '../../services/game.service';
+import { Effect, ofType, Actions } from '@ngrx/effects';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
@@ -11,11 +11,11 @@ import {
   PlayerReadySuccessAction,
   PlayersToPlayersReadyPollAction,
   PlayersToPlayersReadyPollSuccessAction
-} from "./game.actions";
-import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { PollingService } from "../../services/polling.service";
-import { PlayerService } from "../../services/player.service";
-import { of } from "rxjs";
+} from './game.actions';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { PollingService } from '../../services/polling.service';
+import { PlayerService } from '../../services/player.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class GameEffects {
@@ -28,7 +28,7 @@ export class GameEffects {
 
   @Effect()
   public requestPlayersToPlayersReady$ = this.actions$.pipe(
-    ofType<PlayersToPlayersReadyPollAction>("PLAYERS_TO_PLAYERS_READY_REQUEST"),
+    ofType<PlayersToPlayersReadyPollAction>('PLAYERS_TO_PLAYERS_READY_REQUEST'),
     switchMap(action => this.pollingService.pollToStartGame(action.payload)),
     map(
       playersToPlayersReady =>
@@ -38,7 +38,7 @@ export class GameEffects {
 
   @Effect()
   public createGameRequest$ = this.actions$.pipe(
-    ofType<CreateGameRequestAction>("CREATE_GAME"),
+    ofType<CreateGameRequestAction>('CREATE_GAME'),
     map(action => action.payload),
     switchMap(createGameRequest =>
       this.gameService.createGame(createGameRequest)
@@ -48,7 +48,7 @@ export class GameEffects {
 
   @Effect()
   public createPlayerRequest$ = this.actions$.pipe(
-    ofType<CreatePlayerRequestAction>("CREATE_PLAYER"),
+    ofType<CreatePlayerRequestAction>('CREATE_PLAYER'),
     map(action => action.payload),
     switchMap(createPlayerRequest =>
       this.playerService.createPlayer(createPlayerRequest)
@@ -58,9 +58,9 @@ export class GameEffects {
 
   @Effect()
   public readyToGameRequest$ = this.actions$.pipe(
-    ofType<PlayerReadyRequestAction>("PLAYER_READY"),
+    ofType<PlayerReadyRequestAction>('PLAYER_READY'),
     map(action => {
-      console.log("readyToGame effect called");
+      console.log('readyToGame effect called');
       return action.payload;
     }),
     switchMap(playerId => this.playerService.playerReady(playerId)),

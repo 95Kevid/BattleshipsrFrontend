@@ -1,7 +1,7 @@
-import { Row } from "../../models/row";
-import { Cell } from "../../models/cell";
-import { GridActions } from "./grid.actions";
-import { GridParameters } from "../../models/gridParameters";
+import { Row } from '../../models/row';
+import { Cell } from '../../models/cell';
+import { GridActions } from './grid.actions';
+import { GridParameters } from '../../models/gridParameters';
 
 export interface GridState {
   tableRows: Row[];
@@ -22,7 +22,7 @@ function renderShip(state: GridState, occupiedBoardPositions: Cell[]) {
   for (const shipCell of occupiedBoardPositions) {
     outputState.tableRows[shipCell.row - 1].cells[
       shipCell.col.charCodeAt(0) - 65
-    ].colour = "pink";
+    ].colour = 'pink';
   }
   return outputState;
 }
@@ -32,7 +32,7 @@ export function gridReducers(
   action: GridActions
 ) {
   switch (action.type) {
-    case "INITIALISE_GRID": {
+    case 'INITIALISE_GRID': {
       const gridParameters = initialiseGrid(action.payload);
       return {
         ...state,
@@ -40,7 +40,7 @@ export function gridReducers(
         lengthOfRows: gridParameters.tableRows.length
       };
     }
-    case "RENDER_SHIP": {
+    case 'RENDER_SHIP': {
       return renderShip(state, action.payload.occupiedBoardPositions);
     }
     default: {
@@ -64,7 +64,7 @@ function initialiseGrid(gridSize: number): GridParameters {
       const cell: Cell = {
         col: gridParameters.tableHeaders[j].toString(),
         row: i,
-        colour: "blue",
+        colour: 'blue',
         hit: false,
         equals: c => {
           return c.col === cell.col && c.row === cell.row;

@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: "app-create-player-box",
-  templateUrl: "./create-player-box.component.html",
-  styleUrls: ["./create-player-box.component.scss"]
+  selector: 'app-create-player-box',
+  templateUrl: './create-player-box.component.html',
+  styleUrls: ['./create-player-box.component.scss']
 })
 export class CreatePlayerBoxComponent implements OnInit {
   constructor() {}
@@ -20,7 +20,7 @@ export class CreatePlayerBoxComponent implements OnInit {
 
   onSubmit() {
     this.createPlayerRequest.emit(
-      this.createPlayerFormGroup.controls["playerName"].value
+      this.createPlayerFormGroup.controls['playerName'].value
     );
     this.disableForm();
   }
