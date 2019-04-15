@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { ShipPlaceRequest } from "../../models/ship-place-request";
-import { Observable } from "rxjs";
-import { ShipType } from "../../models/ship-type";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ShipPlaceRequest } from '../../models/ship-place-request';
+import { Observable } from 'rxjs';
+import { ShipType } from '../../models/ship-type';
 
 @Component({
-  selector: "app-ship-position-box",
-  templateUrl: "./ship-position-box.component.html",
-  styleUrls: ["./ship-position-box.component.scss"]
+  selector: 'app-ship-position-box',
+  templateUrl: './ship-position-box.component.html',
+  styleUrls: ['./ship-position-box.component.scss']
 })
 export class ShipPositionBoxComponent {
   constructor() {}
@@ -20,9 +20,9 @@ export class ShipPositionBoxComponent {
   > = new EventEmitter();
 
   shipPlacingForm = new FormGroup({
-    col: new FormControl(""),
-    row: new FormControl(""),
-    orientation: new FormControl("")
+    col: new FormControl(''),
+    row: new FormControl(''),
+    orientation: new FormControl('')
   });
 
   buttonDisabled = false;
@@ -31,13 +31,13 @@ export class ShipPositionBoxComponent {
 
   submitPlacement() {
     this.shipPlaceRequest.boardPosition.col = this.shipPlacingForm.get(
-      "col"
+      'col'
     ).value;
     this.shipPlaceRequest.boardPosition.row = this.shipPlacingForm.get(
-      "row"
+      'row'
     ).value;
     this.shipPlaceRequest.orientation = this.shipPlacingForm.get(
-      "orientation"
+      'orientation'
     ).value;
     this.shipPlaceRequest.shipType = this.shipType;
     this.shipPlacementUpdate.emit(this.shipPlaceRequest);

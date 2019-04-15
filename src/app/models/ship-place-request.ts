@@ -1,4 +1,4 @@
-import { ShipType } from "./ship-type";
+import { ShipType } from './ship-type';
 
 export class ShipPlaceRequest {
   playerId? = 0;
@@ -6,7 +6,7 @@ export class ShipPlaceRequest {
   boardPosition: {
     col: string;
     row: number;
-  } = { col: "", row: 0 };
-  orientation = "";
+  } = { col: '', row: 0 };
+  orientation = '';
   shipType: ShipType;
 }

@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePlayerBoxComponent } from "./create-player-box.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CreatePlayerBoxComponent } from './create-player-box.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-describe("CreatePlayerBoxComponent", () => {
+describe('CreatePlayerBoxComponent', () => {
   let component: CreatePlayerBoxComponent;
   let fixture: ComponentFixture<CreatePlayerBoxComponent>;
 
@@ -20,7 +20,7 @@ describe("CreatePlayerBoxComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

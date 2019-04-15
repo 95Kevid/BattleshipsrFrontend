@@ -1,28 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { ShipPlaceRequest } from "../../models/ship-place-request";
-import { PlayerService } from "../../services/player.service";
-import { GameService } from "../../services/game.service";
-import { Store } from "@ngrx/store";
-import { State } from "../../store/state";
-import {
-  AddBattleshipRequestAction,
-  AddCarrierRequestAction,
-  AddCruiserRequestAction,
-  AddDestroyerRequestAction,
-  AddShipRequestAction,
-  AddSubmarineRequestAction
-} from "../../store/ship/ship.actions";
-import { Observable } from "rxjs";
-import { AppState } from "../../store";
-import { ShipType } from "../../models/ship-type";
+import {Component, OnInit} from '@angular/core';
+import {ShipPlaceRequest} from '../../models/ship-place-request';
+import {PlayerService} from '../../services/player.service';
+import {GameService} from '../../services/game.service';
+import {Store} from '@ngrx/store';
+import {AddShipRequestAction} from '../../store/ship/ship.actions';
+import {Observable} from 'rxjs';
+import {AppState} from '../../store';
+import {ShipType} from '../../models/ship-type';
 
 @Component({
-  selector: "app-ship-placer",
-  templateUrl: "./ship-position.component.html",
-  styleUrls: ["./ship-position.component.scss"]
+  selector: 'app-ship-placer',
+  templateUrl: './ship-position.component.html',
+  styleUrls: ['./ship-position.component.scss']
 })
 export class ShipPositionComponent implements OnInit {
-  title: String = "Ship Placing";
+  title: String = 'Ship Placing';
   playerService: PlayerService;
   gameService: GameService;
   store: Store<AppState>;
@@ -69,6 +61,6 @@ export class ShipPositionComponent implements OnInit {
     }
 
     this.rowNumbers = array;
-    console.log("This is the array: " + array);
+    console.log('This is the array: ' + array);
   }
 }
