@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 import { CreateGameRequest } from '../../models/create-game-request';
 import { CreatePlayerRequest } from '../../models/create-player-request';
+import {JoinGameRequest} from '../../models/join-game-request';
+import {JoinGameResponse} from '../../models/join-game-response';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
@@ -22,6 +24,15 @@ export class GameCreatedAction implements Action {
   readonly type = 'GAME_CREATED';
 }
 
+export class JoinGameRequestAction implements Action {
+  constructor(public payload: JoinGameRequest) {}
+  readonly type = 'JOIN_GAME_REQUEST';
+}
+
+export class JoinGameAction implements Action {
+  constructor(public payload: JoinGameResponse) {}
+  readonly type = 'JOIN_GAME_REQUEST';
+}
 export class PlayerCreatedAction implements Action {
   constructor(public payload: number) {}
   readonly type = 'PLAYER_CREATED';
@@ -46,6 +57,11 @@ export class PlayerReadyRequestFailAction implements Action {
   readonly type = 'PLAYER_READY_REQUEST_FAILED';
 }
 
+export class UpdateOrdersAction implements Action {
+  constructor(public payload: string) {}
+  readonly type = 'UPDATE_ORDERS';
+}
+
 export type GameActions =
   | CreateGameRequestAction
   | GameCreatedAction
@@ -55,4 +71,6 @@ export type GameActions =
   | PlayerCreatedAction
   | PlayerReadyRequestAction
   | PlayerReadySuccessAction
-  | PlayerReadyRequestFailAction;
+  | PlayerReadyRequestFailAction
+  | UpdateOrdersAction
+  | JoinGameAction;

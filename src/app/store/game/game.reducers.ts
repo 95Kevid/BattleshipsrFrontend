@@ -6,15 +6,15 @@ export interface GameState {
   gameId?: number;
   playerId?: number;
   playerReady: boolean;
-  currentInstruction: string;
+  currentOrders: string;
 }
 
 export const initialGameState: GameState = {
   playersInGame: 0,
   playersReady: 0,
   playerReady: false,
-  currentInstruction:
-    'Click join to join a game, or click create game to create a game.'
+  currentOrders:
+    'Create or join a game.'
 };
 
 export function gameReducers(
@@ -33,6 +33,11 @@ export function gameReducers(
       newState.gameId = action.payload;
       return newState;
     }
+    case 'JOIN_GAME': {
+      const newState: GameState = { ...state };
+      newState.playerId = action.payload.playerId;
+      return newState;
+    }
     case 'PLAYER_CREATED': {
       const newState: GameState = { ...state };
       newState.playerId = action.payload;
@@ -41,6 +46,11 @@ export function gameReducers(
     case 'PLAYER_READY_SUCCESS': {
       const newState: GameState = { ...state };
       newState.playerReady = true;
+      return newState;
+    }
+    case 'UPDATE_ORDERS': {
+      const newState: GameState = { ...state};
+      newState.currentOrders = action.payload;
       return newState;
     }
     default: {

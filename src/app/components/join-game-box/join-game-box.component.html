@@ -1,0 +1,7 @@
+<form [formGroup]="joinGameFormGroup" (ngSubmit)="joinGameButtonClicked()">
+  <label>Player Name: </label
+  ><input type="text" formControlName="playerName" />
+  <label>Game ID</label>
+  <input type="text" formControlName="gameId" />
+  <button type="submit">Join game</button>
+</form>

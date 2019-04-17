@@ -4,7 +4,7 @@ import { Effect, ofType, Actions } from '@ngrx/effects';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  GameCreatedAction,
+  GameCreatedAction, JoinGameAction, JoinGameRequestAction,
   PlayerCreatedAction,
   PlayerReadyRequestAction,
   PlayerReadyRequestFailAction,
@@ -12,10 +12,11 @@ import {
   PlayersToPlayersReadyPollAction,
   PlayersToPlayersReadyPollSuccessAction
 } from './game.actions';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
 import { PlayerService } from '../../services/player.service';
 import { of } from 'rxjs';
+import {InitialiseGridAction} from '../grid/grid.actions';
 
 @Injectable()
 export class GameEffects {
@@ -44,6 +45,18 @@ export class GameEffects {
       this.gameService.createGame(createGameRequest)
     ),
     map(gameId => new GameCreatedAction(gameId))
+  );
+
+  @Effect()
+  public joinGameRequest$ = this.actions$.pipe(
+    ofType<JoinGameRequestAction>('JOIN_GAME_REQUEST'),
+    map(action => action.payload),
+    switchMap(joinGameRequest =>
+      this.gameService.joinGame(joinGameRequest)
+    ),
+    mergeMap(joinGameResponse => [
+      new JoinGameAction(joinGameResponse),
+      new InitialiseGridAction(joinGameResponse.gridSize)])
   );
 
   @Effect()

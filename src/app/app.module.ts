@@ -20,6 +20,8 @@ import { GameStatusBoxComponent } from './components/game-status-box/game-status
 import { GameGridComponent } from './containers/grid/game-grid/game-grid.component';
 import { GameEffects } from './store/game/game.effects';
 import { GameControlBoxComponent } from './components/game-status-box/game-control-box/game-control-box.component';
+import { CurrentOrderBoxComponent } from './components/current-order-box/current-order-box.component';
+import { JoinGameBoxComponent } from './components/join-game-box/join-game-box.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { GameControlBoxComponent } from './components/game-status-box/game-contr
     CreatePlayerBoxComponent,
     GameStatusBoxComponent,
     GameGridComponent,
-    GameControlBoxComponent
+    GameControlBoxComponent,
+    CurrentOrderBoxComponent,
+    JoinGameBoxComponent
   ],
   imports: [
     BrowserModule,

@@ -7,12 +7,13 @@ import { InitialiseGridAction } from '../../store/grid/grid.actions';
 import { PollingService } from '../../services/polling.service';
 import {
   CreateGameRequestAction,
-  CreatePlayerRequestAction,
+  CreatePlayerRequestAction, JoinGameRequestAction,
   PlayerReadyRequestAction,
-  PlayersToPlayersReadyPollAction
+  PlayersToPlayersReadyPollAction, UpdateOrdersAction
 } from '../../store/game/game.actions';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store';
+import {JoinGameRequest} from '../../models/join-game-request';
 
 @Component({
   selector: 'app-game-control',
@@ -29,6 +30,7 @@ export class GameControlComponent implements OnInit {
   private gameId$: Observable<number>;
   private gameId: number;
   private playerId$: Observable<number>;
+  private orders$: Observable<string>;
 
   constructor(
     gameService: GameService,
@@ -57,21 +59,23 @@ export class GameControlComponent implements OnInit {
     this.playersReady$ = this.store.select(
       state => state.gameState.playersReady
     );
+    this.orders$ = this.store.select(state => state.gameState.currentOrders);
   }
 
   createGameButtonClicked() {
     this.showGameCreationMenu = true;
+    this.store.dispatch(new UpdateOrdersAction('Enter number of players and the size of the game grid (6 - 26)'));
   }
 
   joinGameButtonClicked() {
     this.showJoinGameMenu = true;
-    this.showPlayerCreationMenu = true;
   }
 
   createGame(createGameRequest: CreateGameRequest) {
     this.showPlayerCreationMenu = true;
     this.store.dispatch(new InitialiseGridAction(createGameRequest.gridSize));
     this.store.dispatch(new CreateGameRequestAction(createGameRequest));
+    this.store.dispatch(new UpdateOrdersAction('Enter the your name.'));
     this.gameId$.subscribe(state => (this.gameId = state));
   }
 
@@ -84,6 +88,7 @@ export class GameControlComponent implements OnInit {
     );
     this.showShipPlacerMenu = true;
     this.showGrid = true;
+    this.store.dispatch(new UpdateOrdersAction('Place your ships and click start.'));
   }
 
   pollForPlayersToPlayersReady() {
@@ -94,5 +99,10 @@ export class GameControlComponent implements OnInit {
     let playerId: number;
     this.playerId$.subscribe(pid => (playerId = pid));
     this.store.dispatch(new PlayerReadyRequestAction(playerId));
+    this.store.dispatch(new UpdateOrdersAction('Await other players to join...'));
+  }
+
+  joinGame(joinGameRequest: JoinGameRequest) {
+    this.store.dispatch(new JoinGameRequestAction(joinGameRequest));
   }
 }
