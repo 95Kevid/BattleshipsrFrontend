@@ -31,7 +31,7 @@ export class JoinGameRequestAction implements Action {
 
 export class JoinGameAction implements Action {
   constructor(public payload: JoinGameResponse) {}
-  readonly type = 'JOIN_GAME_REQUEST';
+  readonly type = 'JOIN_GAME';
 }
 export class PlayerCreatedAction implements Action {
   constructor(public payload: number) {}

@@ -25,6 +25,8 @@ export class GameService {
   }
 
   joinGame(joinGameRequest: JoinGameRequest): Observable<JoinGameResponse> {
-    return this.http.post<JoinGameResponse>(this.joinGameUrl, joinGameRequest);
+    const response = this.http.post<JoinGameResponse>(this.joinGameUrl, joinGameRequest);
+    console.log(response);
+    return response;
   }
 }

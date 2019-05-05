@@ -36,6 +36,7 @@ export function gameReducers(
     case 'JOIN_GAME': {
       const newState: GameState = { ...state };
       newState.playerId = action.payload.playerId;
+      newState.gameId = action.payload.gameId;
       return newState;
     }
     case 'PLAYER_CREATED': {

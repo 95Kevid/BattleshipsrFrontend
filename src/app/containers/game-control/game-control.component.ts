@@ -103,6 +103,8 @@ export class GameControlComponent implements OnInit {
   }
 
   joinGame(joinGameRequest: JoinGameRequest) {
+    this.gameId$.subscribe(state => (this.gameId = state));
     this.store.dispatch(new JoinGameRequestAction(joinGameRequest));
+    this.showShipPlacerMenu = true;
   }
 }
