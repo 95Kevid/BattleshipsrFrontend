@@ -12,9 +12,7 @@ export class CreateGameBoxComponent implements OnInit {
   constructor() {}
 
   @Input() gameId$: Observable<number>;
-  @Output() createGameEvent: EventEmitter<
-    CreateGameRequest
-  > = new EventEmitter();
+  @Output() createGameEvent: EventEmitter<CreateGameRequest> = new EventEmitter();
 
   formGroup: FormGroup = new FormGroup({
     numberOfPlayers: new FormControl(''),
@@ -26,7 +24,6 @@ export class CreateGameBoxComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    console.log('submit called');
     const numberOfPlayers: number = this.formGroup.controls['numberOfPlayers']
       .value;
     const gridSize: number = this.formGroup.controls['gridSize'].value;

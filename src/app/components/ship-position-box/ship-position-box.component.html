@@ -4,21 +4,21 @@
   </p>
 
   <label>Column </label>
-  <select formControlName="col">
+  <select formControlName="col" [id]="'col-' + shipType">
     <option *ngFor="let header of (tableHeaders$ | async)" [ngValue]="header">{{
       header
     }}</option>
   </select>
 
   <label>Row</label>
-  <select formControlName="row">
+  <select formControlName="row" [id]="'row-' + shipType">
     <option *ngFor="let rowNumber of rowNumbers" [ngValue]="rowNumber">{{
       rowNumber
     }}</option>
   </select>
 
   <label>Orientation</label>
-  <select formControlName="orientation">
+  <select formControlName="orientation" [id]="'ori-' + shipType">
     <option>HORIZONTAL</option>
     <option>VERTICAL</option>
   </select>

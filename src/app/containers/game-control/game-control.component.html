@@ -1,8 +1,8 @@
 <app-current-order-box [orders$]="orders$"></app-current-order-box>
-<button (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">
+<button id="outerCreateGameButton" (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">
   Create Game
 </button>
-<button (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
+<button id="outerJoinGameButton" (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
   Join Game
 </button>
 <app-create-game-box

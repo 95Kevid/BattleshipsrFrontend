@@ -5,10 +5,10 @@ import { CreateGameBoxComponent } from './components/create-game-box/create-game
 import { CreatePlayerBoxComponent } from './components/create-player-box/create-player-box.component';
 import { GameGridComponent } from './containers/grid/game-grid/game-grid.component';
 import { ShipPositionComponent } from './containers/ship-placing/ship-position.component.';
-import { GameStatusBoxComponent } from './components/game-status-box/game-status-box/game-status-box.component';
+import { GameStartStatusBoxComponent } from './components/start-game-status-box/game-status-box/game-start-status-box.component';
 import { GridBoxComponent } from './components/grid/grid-box.component';
 import { ShipPositionBoxComponent } from './components/ship-position-box/ship-position-box.component';
-import { GameControlBoxComponent } from './components/game-status-box/game-control-box/game-control-box.component';
+import { GameControlBoxComponent } from './components/start-game-status-box/game-control-box/game-control-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
@@ -34,7 +34,7 @@ describe('AppComponent', () => {
         CreatePlayerBoxComponent,
         GameGridComponent,
         ShipPositionComponent,
-        GameStatusBoxComponent,
+        GameStartStatusBoxComponent,
         GameGridComponent,
         GridBoxComponent,
         ShipPositionBoxComponent

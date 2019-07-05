@@ -1,0 +1,6 @@
+<app-game-grid></app-game-grid>
+<app-current-order-box></app-current-order-box>
+<app-player-turn-info-box (pollForGameStatusEvent$)="pollForGameStatus()"></app-player-turn-info-box>
+<app-shooting-box (shootRequestEvent$)="shoot($event)"></app-shooting-box>
+<app-player-list-box [playerInfoList$]="this.playerInfoList$">
+</app-player-list-box>

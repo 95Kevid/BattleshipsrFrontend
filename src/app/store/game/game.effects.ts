@@ -4,19 +4,20 @@ import { Effect, ofType, Actions } from '@ngrx/effects';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  GameCreatedAction, JoinGameAction, JoinGameRequestAction,
+  GameCreatedAction, GameStatusRequestAction, GameStatusRequestSuccessAction, JoinGameAction, JoinGameRequestAction,
   PlayerCreatedAction,
   PlayerReadyRequestAction,
   PlayerReadyRequestFailAction,
   PlayerReadySuccessAction,
   PlayersToPlayersReadyPollAction,
-  PlayersToPlayersReadyPollSuccessAction
+  PlayersToPlayersReadyPollSuccessAction, ShootRequestAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
 import { PlayerService } from '../../services/player.service';
 import { of } from 'rxjs';
 import {InitialiseGridAction} from '../grid/grid.actions';
+import {NavigationService} from '../../services/navigation.service';
 
 @Injectable()
 export class GameEffects {
@@ -24,7 +25,8 @@ export class GameEffects {
     private actions$: Actions,
     private gameService: GameService,
     private pollingService: PollingService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private navigationService: NavigationService
   ) {}
 
   @Effect()
@@ -72,11 +74,27 @@ export class GameEffects {
   @Effect()
   public readyToGameRequest$ = this.actions$.pipe(
     ofType<PlayerReadyRequestAction>('PLAYER_READY'),
-    map(action => {
-      console.log('readyToGame effect called');
-      return action.payload;
-    }),
+    map(action => action.payload),
     switchMap(playerId => this.playerService.playerReady(playerId)),
+    map(_ => new PlayerReadySuccessAction()),
+    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
+  );
+
+  @Effect()
+  public gameStatusRequest$ = this.actions$.pipe(
+    ofType<GameStatusRequestAction>('GAME_STATUS_REQUEST'),
+    switchMap(action => this.pollingService.pollForGameStatus(action.payload)),
+    map(
+      GameStatusResponse =>
+        new GameStatusRequestSuccessAction(GameStatusResponse)
+    )
+  );
+
+  @Effect()
+  public shootRequest$ = this.actions$.pipe(
+    ofType<ShootRequestAction>('SHOOT_REQUEST'),
+    map(action => action.payload),
+    switchMap(shootRequest => this.gameService.shootRequst(playerId)),
     map(_ => new PlayerReadySuccessAction()),
     catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
   );

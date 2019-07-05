@@ -3,10 +3,10 @@ import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-game-status-box',
-  templateUrl: './game-status-box.component.html',
-  styleUrls: ['./game-status-box.component.scss']
+  templateUrl: './game-start-status-box.component.html',
+  styleUrls: ['./game-start-status-box.component.scss']
 })
-export class GameStatusBoxComponent {
+export class GameStartStatusBoxComponent {
   @Input() playersReady$: Observable<number>;
   @Input() playersInGame$: Observable<number>;
 }

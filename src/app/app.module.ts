@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterModule, Routes } from '@angular/router';
 
 import { GridBoxComponent } from './components/grid/grid-box.component';
 import { ShipPositionComponent } from './containers/ship-placing/ship-position.component.';
@@ -16,12 +17,17 @@ import { reducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ShipEffects } from './store/ship/ship.effects';
-import { GameStatusBoxComponent } from './components/game-status-box/game-status-box/game-status-box.component';
+import { GameStartStatusBoxComponent } from './components/start-game-status-box/game-status-box/game-start-status-box.component';
 import { GameGridComponent } from './containers/grid/game-grid/game-grid.component';
 import { GameEffects } from './store/game/game.effects';
-import { GameControlBoxComponent } from './components/game-status-box/game-control-box/game-control-box.component';
+import { GameControlBoxComponent } from './components/start-game-status-box/game-control-box/game-control-box.component';
 import { CurrentOrderBoxComponent } from './components/current-order-box/current-order-box.component';
 import { JoinGameBoxComponent } from './components/join-game-box/join-game-box.component';
+import { ShootingScreenComponent } from './containers/shooting-screen/shooting-screen.component';
+import {AppRoutingModule} from './app-routing/app-routing-module';
+import { PlayerListBoxComponent } from './components/player-list-box/player-list-box.component';
+import { PlayerTurnInfoBoxComponent } from './components/in-game-status-box/player-turn-info-box.component';
+import { ShootingBoxComponent } from './components/shooting-box/shooting-box.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +38,15 @@ import { JoinGameBoxComponent } from './components/join-game-box/join-game-box.c
     CreateGameBoxComponent,
     GameControlComponent,
     CreatePlayerBoxComponent,
-    GameStatusBoxComponent,
+    GameStartStatusBoxComponent,
     GameGridComponent,
     GameControlBoxComponent,
     CurrentOrderBoxComponent,
-    JoinGameBoxComponent
+    JoinGameBoxComponent,
+    ShootingScreenComponent,
+    PlayerListBoxComponent,
+    PlayerTurnInfoBoxComponent,
+    ShootingBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +55,8 @@ import { JoinGameBoxComponent } from './components/join-game-box/join-game-box.c
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([ShipEffects, GameEffects])
+    EffectsModule.forRoot([ShipEffects, GameEffects]),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

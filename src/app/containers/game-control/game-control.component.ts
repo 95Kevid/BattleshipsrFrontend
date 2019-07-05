@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { GameService } from '../../services/game.service';
-import { PlayerService } from '../../services/player.service';
-import { CreateGameRequest } from '../../models/create-game-request';
-import { Store } from '@ngrx/store';
-import { InitialiseGridAction } from '../../store/grid/grid.actions';
-import { PollingService } from '../../services/polling.service';
+import {Component, OnInit} from '@angular/core';
+import {GameService} from '../../services/game.service';
+import {PlayerService} from '../../services/player.service';
+import {CreateGameRequest} from '../../models/create-game-request';
+import {Store} from '@ngrx/store';
+import {InitialiseGridAction} from '../../store/grid/grid.actions';
+import {PollingService} from '../../services/polling.service';
 import {
   CreateGameRequestAction,
-  CreatePlayerRequestAction, JoinGameRequestAction,
+  CreatePlayerRequestAction,
+  JoinGameRequestAction,
   PlayerReadyRequestAction,
-  PlayersToPlayersReadyPollAction, UpdateOrdersAction
+  PlayersToPlayersReadyPollAction,
+  UpdateOrdersAction
 } from '../../store/game/game.actions';
-import { Observable } from 'rxjs';
-import { AppState } from '../../store';
+import {Observable} from 'rxjs';
+import {AppState} from '../../store';
 import {JoinGameRequest} from '../../models/join-game-request';
+import {NavigationService} from '../../services/navigation.service';
 
 @Component({
   selector: 'app-game-control',
@@ -23,6 +26,7 @@ import {JoinGameRequest} from '../../models/join-game-request';
 export class GameControlComponent implements OnInit {
   private gameService: GameService;
   private createPlayerService: PlayerService;
+  private navigationService: NavigationService;
   private store: Store<AppState>;
   private pollingService: PollingService;
   private playersReady$: Observable<number>;
@@ -36,12 +40,14 @@ export class GameControlComponent implements OnInit {
     gameService: GameService,
     createPlayerService: PlayerService,
     store: Store<AppState>,
-    pollingService: PollingService
+    pollingService: PollingService,
+    navigationService: NavigationService
   ) {
     this.gameService = gameService;
     this.createPlayerService = createPlayerService;
     this.store = store;
     this.pollingService = pollingService;
+    this.navigationService = navigationService;
   }
 
   showGameCreationMenu = false;
@@ -54,12 +60,19 @@ export class GameControlComponent implements OnInit {
     this.gameId$ = this.store.select(state => state.gameState.gameId);
     this.playerId$ = this.store.select(state => state.gameState.playerId);
     this.playersInGame$ = this.store.select(
-      state => state.gameState.playersInGame
+      state => state.gameState.numberOfPlayersInGame
     );
     this.playersReady$ = this.store.select(
       state => state.gameState.playersReady
     );
     this.orders$ = this.store.select(state => state.gameState.currentOrders);
+
+    this.gameService.allPlayersReady()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.navigationService.navigate('/shooting');
+        }
+      });
   }
 
   createGameButtonClicked() {

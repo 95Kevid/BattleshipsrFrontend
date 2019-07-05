@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {GameStatusResponse} from '../models/game-status-response';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +9,14 @@ import { Observable } from 'rxjs';
 export class PollingService {
   constructor(private http: HttpClient) {}
 
-  private url = 'http://localhost:9721/waitingplayerpoll';
+  private playerToPlayerReadyUrl = 'http://localhost:9721/waitingplayerpoll';
+  private gameStatusUrl = 'http://localhost:9721/gamestatuspoll';
 
   pollToStartGame(gameId: number): Observable<PlayersToPlayersReady> {
-    return this.http.post<PlayersToPlayersReady>(this.url, gameId);
+    return this.http.post<PlayersToPlayersReady>(this.playerToPlayerReadyUrl, gameId);
+  }
+
+  pollForGameStatus(gameId: number): Observable<GameStatusResponse> {
+    return this.http.post<GameStatusResponse>(this.gameStatusUrl, gameId);
   }
 }

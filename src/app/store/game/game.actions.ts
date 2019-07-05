@@ -3,10 +3,22 @@ import { CreateGameRequest } from '../../models/create-game-request';
 import { CreatePlayerRequest } from '../../models/create-player-request';
 import {JoinGameRequest} from '../../models/join-game-request';
 import {JoinGameResponse} from '../../models/join-game-response';
+import {GameStatusResponse} from '../../models/game-status-response';
+import {ShootRequest} from '../../models/shoot-request';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
   readonly type = 'PLAYERS_TO_PLAYERS_READY_REQUEST';
+}
+
+export class GameStatusRequestAction implements Action {
+  constructor(public payload: number) {}
+  readonly type = 'GAME_STATUS_REQUEST';
+}
+
+export class GameStatusRequestSuccessAction implements Action {
+  constructor(public payload: GameStatusResponse) {}
+  readonly type = 'GAME_STATUS_REQUEST_SUCCESS';
 }
 
 export class PlayersToPlayersReadyPollSuccessAction implements Action {
@@ -62,6 +74,11 @@ export class UpdateOrdersAction implements Action {
   readonly type = 'UPDATE_ORDERS';
 }
 
+export class ShootRequestAction implements Action {
+  constructor(public payload: ShootRequest) {}
+  readonly type = 'SHOOT_REQUEST';
+}
+
 export type GameActions =
   | CreateGameRequestAction
   | GameCreatedAction
@@ -73,4 +90,6 @@ export type GameActions =
   | PlayerReadySuccessAction
   | PlayerReadyRequestFailAction
   | UpdateOrdersAction
-  | JoinGameAction;
+  | JoinGameAction
+  | GameStatusRequestSuccessAction
+  | ShootRequestAction;

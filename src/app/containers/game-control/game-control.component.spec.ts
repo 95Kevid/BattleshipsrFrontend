@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameControlComponent } from './game-control.component';
-import { GameControlBoxComponent } from '../../components/game-status-box/game-control-box/game-control-box.component';
+import { GameControlBoxComponent } from '../../components/start-game-status-box/game-control-box/game-control-box.component';
 import { CreateGameBoxComponent } from '../../components/create-game-box/create-game-box.component';
 import { CreatePlayerBoxComponent } from '../../components/create-player-box/create-player-box.component';
 import { GameGridComponent } from '../grid/game-grid/game-grid.component';
 import { ShipPositionComponent } from '../ship-placing/ship-position.component.';
-import { GameStatusBoxComponent } from '../../components/game-status-box/game-status-box/game-status-box.component';
+import { GameStartStatusBoxComponent } from '../../components/start-game-status-box/game-status-box/game-start-status-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridBoxComponent } from '../../components/grid/grid-box.component';
 import { ShipPositionBoxComponent } from '../../components/ship-position-box/ship-position-box.component';
@@ -33,7 +33,7 @@ describe('GameControlComponent', () => {
         CreatePlayerBoxComponent,
         GameGridComponent,
         ShipPositionComponent,
-        GameStatusBoxComponent,
+        GameStartStatusBoxComponent,
         GameGridComponent,
         GridBoxComponent,
         ShipPositionBoxComponent
