@@ -1,5 +1,5 @@
 import { Row } from '../../models/row';
-import { Cell } from '../../models/cell';
+import { BoardPosition } from '../../models/board-position';
 import { GridActions } from './grid.actions';
 import { GridParameters } from '../../models/gridParameters';
 
@@ -17,7 +17,7 @@ export const initialGridState: GridState = {
   gridSize: 0
 };
 
-function renderShip(state: GridState, occupiedBoardPositions: Cell[]) {
+function renderShip(state: GridState, occupiedBoardPositions: BoardPosition[]) {
   const outputState = { ...state };
   for (const shipCell of occupiedBoardPositions) {
     outputState.tableRows[shipCell.row - 1].cells[
@@ -59,9 +59,9 @@ function initialiseGrid(gridSize: number): GridParameters {
   }
 
   for (let i = 0; i < gridSize; i++) {
-    const cells: Cell[] = [];
+    const cells: BoardPosition[] = [];
     for (let j = 0; j < gridSize; j++) {
-      const cell: Cell = {
+      const cell: BoardPosition = {
         col: gridParameters.tableHeaders[j].toString(),
         row: i,
         colour: 'blue',

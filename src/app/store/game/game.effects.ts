@@ -10,7 +10,7 @@ import {
   PlayerReadyRequestFailAction,
   PlayerReadySuccessAction,
   PlayersToPlayersReadyPollAction,
-  PlayersToPlayersReadyPollSuccessAction, ShootRequestAction
+  PlayersToPlayersReadyPollSuccessAction, ShootRequestAction, ShootRequestFailAction, ShootRequestSuccessAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
@@ -75,9 +75,9 @@ export class GameEffects {
   public readyToGameRequest$ = this.actions$.pipe(
     ofType<PlayerReadyRequestAction>('PLAYER_READY'),
     map(action => action.payload),
-    switchMap(playerId => this.playerService.playerReady(playerId)),
+    switchMap(playerId => this.playerService.playerReady(playerId).pipe(
     map(_ => new PlayerReadySuccessAction()),
-    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
+    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))))
   );
 
   @Effect()
@@ -93,9 +93,9 @@ export class GameEffects {
   @Effect()
   public shootRequest$ = this.actions$.pipe(
     ofType<ShootRequestAction>('SHOOT_REQUEST'),
-    map(action => action.payload),
-    switchMap(shootRequest => this.gameService.shootRequest(shootRequest)),
-    map(_ => new PlayerReadySuccessAction()),
-    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
+    map(action => {console.log('Shoot request called.'); return action.payload}),
+    switchMap(shootRequest => this.gameService.shootRequest(shootRequest).pipe(
+    map(_ => new ShootRequestSuccessAction()),
+    catchError(err => of(new ShootRequestFailAction(err.toString())))))
   );
 }

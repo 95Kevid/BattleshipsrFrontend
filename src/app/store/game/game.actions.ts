@@ -79,6 +79,15 @@ export class ShootRequestAction implements Action {
   readonly type = 'SHOOT_REQUEST';
 }
 
+export class ShootRequestFailAction implements Action {
+  constructor(public payload: string) {}
+  readonly type = 'SHOOT_REQUEST_FAIL';
+}
+
+export class ShootRequestSuccessAction implements Action {
+  readonly type = 'SHOOT_REQUEST_SUCCESS';
+}
+
 export type GameActions =
   | CreateGameRequestAction
   | GameCreatedAction
@@ -92,4 +101,6 @@ export type GameActions =
   | UpdateOrdersAction
   | JoinGameAction
   | GameStatusRequestSuccessAction
-  | ShootRequestAction;
+  | ShootRequestAction
+  | ShootRequestFailAction
+  | ShootRequestSuccessAction;

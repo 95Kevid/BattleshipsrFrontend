@@ -8,8 +8,9 @@
   <tr *ngFor="let playerInfo of playerInfoList$ | async">
     <td>{{playerInfo.name}}</td>
     <td>
-      <span *ngFor="let shotPosition of playerInfo.shot">{{shotPosition}}</span>
+      <span *ngFor="let shotPosition of playerInfo.shot">{{shotPosition.col}}{{shotPosition.row}} </span>
     </td>
-    <td>{{playerInfo.sunk}}</td>
+    <td>
+      <span *ngFor="let sunkShip of playerInfo.sunk">{{sunkShip.type}} </span></td>
   </tr>
 </table>

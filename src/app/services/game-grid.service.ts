@@ -1,5 +1,5 @@
 import { GridParameters } from '../models/gridParameters';
-import { Cell } from '../models/cell';
+import { BoardPosition } from '../models/board-position';
 import { Row } from '../models/row';
 import { Injectable } from '@angular/core';
 

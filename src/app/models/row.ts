@@ -1,9 +1,9 @@
-import { Cell } from './cell';
+import { BoardPosition } from './board-position';
 
 export class Row {
-  cells: Cell[];
+  cells: BoardPosition[];
 
-  constructor(cells: Cell[]) {
+  constructor(cells: BoardPosition[]) {
     this.cells = cells;
   }
 }

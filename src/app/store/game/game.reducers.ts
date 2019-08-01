@@ -1,13 +1,12 @@
 import { GameActions } from './game.actions';
 import {Ship} from '../../models/ship';
-import {Position} from '@angular/compiler';
-import {Cell} from '../../models/cell';
+import {BoardPosition} from '../../models/board-position';
 
 export interface GameState {
   numberOfPlayersInGame: number;
   playersTurnId?: number;
   playersToSunkShips?: Map<string, Ship>;
-  playersToShotPositions?: Map<string, Cell>;
+  playersToShotPositions?: Map<string, BoardPosition>;
   playersInGame?: string[];
   playersReady: number;
   gameId?: number;
@@ -67,6 +66,16 @@ export function gameReducers(
       newState.playersToSunkShips = action.payload.playersToSunkShips;
       newState.playersToShotPositions = action.payload.playersToShotPositions;
       newState.playersTurnId =  action.payload.playersTurnId;
+      return newState;
+    }
+    case 'SHOOT_REQUEST_FAIL': {
+      const newState: GameState = { ...state};
+      newState.currentOrders = action.payload;
+      return newState;
+    }
+    case 'SHOOT_REQUEST_SUCCESS': {
+      const newState: GameState = {...state};
+      newState.currentOrders = 'Shot taken. Awaiting other players.';
       return newState;
     }
     default: {

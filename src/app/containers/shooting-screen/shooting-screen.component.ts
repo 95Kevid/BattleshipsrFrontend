@@ -3,7 +3,7 @@ import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
 import {Observable, zip} from 'rxjs';
 import {GameStatusRequestAction, ShootRequestAction} from '../../store/game/game.actions';
-import {Cell} from '../../models/cell';
+import {BoardPosition} from '../../models/board-position';
 import {Ship} from '../../models/ship';
 import {map} from 'rxjs/operators';
 import {ShootRequest} from '../../models/shoot-request';
@@ -20,7 +20,7 @@ export class ShootingScreenComponent implements OnInit {
   private gameId$: Observable<number>;
   private playerId: number;
   private playerId$: Observable<number>;
-  private playersToShotPositions$: Observable<Map<string, Cell>>;
+  private playersToShotPositions$: Observable<Map<string, BoardPosition>>;
   private playersToSunkShips$: Observable<Map<string, Ship>>;
   private playerInfoList$: Observable<any>;
 
