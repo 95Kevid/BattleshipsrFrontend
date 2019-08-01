@@ -8,7 +8,7 @@
   <tr *ngFor="let playerInfo of playerInfoList$ | async">
     <td>{{playerInfo.name}}</td>
     <td>
-      <span *ngFor="let shotPosition of playerInfo.shot">{{shotPosition}}</br></span>
+      <span *ngFor="let shotPosition of playerInfo.shot">{{shotPosition}}</span>
     </td>
     <td>{{playerInfo.sunk}}</td>
   </tr>

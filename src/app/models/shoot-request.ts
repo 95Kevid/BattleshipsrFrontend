@@ -1,4 +1,8 @@
 export interface ShootRequest {
-  col: string;
-  row: number;
+  gameId?: number;
+  playerId?: number;
+  boardPosition: {
+    col: string;
+    row: number;
+  };
 }

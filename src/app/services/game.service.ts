@@ -7,6 +7,7 @@ import { JoinGameRequest } from '../models/join-game-request';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {map} from 'rxjs/operators';
+import {ShootRequest} from '../models/shoot-request';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ import {map} from 'rxjs/operators';
 export class GameService {
   private createGameUrl = 'http://localhost:9721/creategame/';
   private joinGameUrl = 'http://localhost:9721/joingame/';
+  private shootRequestUrl = 'http://localhost:9721/shoot/';
 
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
@@ -37,5 +39,9 @@ export class GameService {
     return this.store.pipe(
       map(state => state.gameState.numberOfPlayersInGame === state.gameState.playersReady && state.gameState.numberOfPlayersInGame !== 0)
     );
+  }
+
+  shootRequest(shootRequest: ShootRequest) {
+    return this.http.post(this.shootRequestUrl, shootRequest);
   }
 }

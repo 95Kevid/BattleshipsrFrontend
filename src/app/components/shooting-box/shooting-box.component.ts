@@ -15,8 +15,8 @@ export class ShootingBoxComponent implements OnInit {
   }
 
   formGroup: FormGroup = new FormGroup({
-    col: FormControl = new FormControl(''),
-    row: FormControl = new FormControl('')
+    col: new FormControl(''),
+    row: new FormControl('')
   });
 
   ngOnInit() {
@@ -26,8 +26,8 @@ export class ShootingBoxComponent implements OnInit {
     const col: string = this.formGroup.controls['col'].value;
     const row: number = this.formGroup.controls['row'].value;
     this.shootRequestEvent$.emit({
-      row,
-      col
+    boardPosition: { col: col,
+                     row: row}
     });
   }
 }

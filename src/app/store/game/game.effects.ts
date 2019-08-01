@@ -94,7 +94,7 @@ export class GameEffects {
   public shootRequest$ = this.actions$.pipe(
     ofType<ShootRequestAction>('SHOOT_REQUEST'),
     map(action => action.payload),
-    switchMap(shootRequest => this.gameService.shootRequst(playerId)),
+    switchMap(shootRequest => this.gameService.shootRequest(shootRequest)),
     map(_ => new PlayerReadySuccessAction()),
     catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
   );
