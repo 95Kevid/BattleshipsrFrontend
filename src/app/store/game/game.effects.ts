@@ -16,8 +16,11 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
 import { PlayerService } from '../../services/player.service';
 import { of } from 'rxjs';
-import {InitialiseGridAction} from '../grid/grid.actions';
+import {InitialiseGridAction, RenderHitPosition} from '../grid/grid.actions';
 import {NavigationService} from '../../services/navigation.service';
+import {GetThisPlayersInfoService} from '../../services/get-this-players-info.service';
+
+export var thisPlayerId: number;
 
 @Injectable()
 export class GameEffects {
@@ -83,10 +86,17 @@ export class GameEffects {
   @Effect()
   public gameStatusRequest$ = this.actions$.pipe(
     ofType<GameStatusRequestAction>('GAME_STATUS_REQUEST'),
-    switchMap(action => this.pollingService.pollForGameStatus(action.payload)),
-    map(
-      GameStatusResponse =>
-        new GameStatusRequestSuccessAction(GameStatusResponse)
+    switchMap(action => {
+      thisPlayerId = action.payload.playerId;
+      return this.pollingService.pollForGameStatus(action.payload);
+    }),
+    mergeMap(gameStatusResponse => {
+        const getThisPlayersInfoService: GetThisPlayersInfoService = new GetThisPlayersInfoService();
+        const playerInGameInfo = getThisPlayersInfoService.getPlayerInfo(thisPlayerId, gameStatusResponse.playerInGameInfos)
+        return [
+          new GameStatusRequestSuccessAction(gameStatusResponse),
+          new RenderHitPosition(playerInGameInfo)];
+      }
     )
   );
 

@@ -5,12 +5,12 @@
     <th>Hit Positions</th>
     <th>Sunk Ships</th>
   </tr>
-  <tr *ngFor="let playerInfo of playerInfoList$ | async">
+  <tr *ngFor="let playerInfo of playersInGameInfos$ | async">
     <td>{{playerInfo.name}}</td>
     <td>
-      <span *ngFor="let shotPosition of playerInfo.shot">{{shotPosition.col}}{{shotPosition.row}} </span>
+      <span *ngFor="let shotPosition of playerInfo.shotPositions">{{shotPosition.col}}{{shotPosition.row}} </span>
     </td>
     <td>
-      <span *ngFor="let sunkShip of playerInfo.sunk">{{sunkShip.type}} </span></td>
+      <span *ngFor="let sunkShip of playerInfo.sunkShips">{{sunkShip.type}} </span></td>
   </tr>
 </table>

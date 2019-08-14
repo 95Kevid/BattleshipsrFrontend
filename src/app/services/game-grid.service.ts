@@ -15,7 +15,7 @@ export class GameGridService {
   //   }
   //
   //   for (let i = 0; i < gridSize; i++) {
-  //     const cells: Cell[] = [];
+  //     const boardPositions: Cell[] = [];
   //     for (let j = 0; j < gridSize; j++) {
   //       const cell: Cell = {
   //         col: gridParameters.tableHeaders[j].toString(),
@@ -27,9 +27,9 @@ export class GameGridService {
   //             && c.row === cell.row;
   //         }
   //       };
-  //       cells[j] = cell;
+  //       boardPositions[j] = cell;
   //     }
-  //     gridParameters.tableRows[i] = new Row(cells);
+  //     gridParameters.tableRows[i] = new Row(boardPositions);
   //   }
   //   return gridParameters;
   //

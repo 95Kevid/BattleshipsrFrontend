@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ShootRequest} from '../../models/shoot-request';
 
@@ -11,6 +11,8 @@ export class ShootingBoxComponent implements OnInit {
 
   @Output()
   shootRequestEvent$ = new EventEmitter<ShootRequest>();
+  // @Input()
+  // disableShootingOption;
   constructor() {
   }
 

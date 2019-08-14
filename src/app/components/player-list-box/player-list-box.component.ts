@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
+import {PlayerInGameInfo} from '../../models/player-in-game-info';
 
 @Component({
   selector: 'app-player-list-box',
@@ -7,7 +8,7 @@ import {Observable} from 'rxjs';
   styleUrls: ['./player-list-box.component.scss']
 })
 export class PlayerListBoxComponent implements OnInit {
-  @Input() playerInfoList$: Observable<any>;
+  @Input() playersInGameInfos$: Observable<PlayerInGameInfo[]>;
 
   constructor() {
   }

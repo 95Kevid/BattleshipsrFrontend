@@ -8,7 +8,7 @@
   </tr>
   <tr *ngFor="let row of (tableRows$ | async); let i = index">
     <td class="row-column">{{ i + 1 }}</td>
-    <td *ngFor="let cell of row.cells" [style.backgroundColor]="cell.colour">      &nbsp;
+    <td *ngFor="let cell of row.boardPositions" [style.backgroundColor]="cell.colour">      &nbsp;
     </td>
   </tr>
 </table>

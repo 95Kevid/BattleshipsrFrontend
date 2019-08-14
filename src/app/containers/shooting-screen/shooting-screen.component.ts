@@ -3,10 +3,8 @@ import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
 import {Observable, zip} from 'rxjs';
 import {GameStatusRequestAction, ShootRequestAction} from '../../store/game/game.actions';
-import {BoardPosition} from '../../models/board-position';
-import {Ship} from '../../models/ship';
-import {map} from 'rxjs/operators';
 import {ShootRequest} from '../../models/shoot-request';
+import {PlayerInGameInfo} from '../../models/player-in-game-info';
 
 @Component({
   selector: 'app-shooting-screen',
@@ -20,9 +18,9 @@ export class ShootingScreenComponent implements OnInit {
   private gameId$: Observable<number>;
   private playerId: number;
   private playerId$: Observable<number>;
-  private playersToShotPositions$: Observable<Map<string, BoardPosition>>;
-  private playersToSunkShips$: Observable<Map<string, Ship>>;
-  private playerInfoList$: Observable<any>;
+  private playersInGameInfos$: Observable<PlayerInGameInfo[]>;
+  private disableShootingOption: boolean;
+  private disableShootingOption$: Observable<boolean>;
 
   constructor(store: Store<AppState>) {
     this.store = store;
@@ -33,20 +31,9 @@ export class ShootingScreenComponent implements OnInit {
     this.gameId$.subscribe(state => this.gameId = state);
     this.playerId$ = this.store.select(state => state.gameState.playerId);
     this.playerId$.subscribe(state => this.playerId = state);
-    this.playersToShotPositions$ = this.store.select(state => state.gameState.playersToShotPositions);
-    this.playersToSunkShips$ = this.store.select(state => state.gameState.playersToSunkShips);
-    this.playerInfoList$ = zip(this.playersToSunkShips$, this.playersToShotPositions$)
-      .pipe(
-        map(result => {
-          if (result[0] && result[1]) {
-            const names = Object.keys(result[0]);
-            return names.map(name => {
-              return {name: name, sunk: result[0][name], shot: result[1][name]};
-            });
-          } else {
-            return [];
-          }
-        }));
+    this.playersInGameInfos$ = this.store.select(state => state.gameState.playerInGameInfos);
+    this.disableShootingOption$ = this.store.select((state => state.gameState.disableShootingOption));
+    this.disableShootingOption$.subscribe(state => this.disableShootingOption = state);
   }
 
   shoot(shootRequest: ShootRequest) {
@@ -56,7 +43,7 @@ export class ShootingScreenComponent implements OnInit {
   }
 
   pollForGameStatus() {
-    this.store.dispatch(new GameStatusRequestAction(this.gameId));
+    this.store.dispatch(new GameStatusRequestAction({gameId: this.gameId, playerId: this.playerId}));
     console.log('Game Id is' + this.gameId);
   }
 }

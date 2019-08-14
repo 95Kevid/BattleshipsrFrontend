@@ -33,14 +33,14 @@ describe('Grid reducers', () => {
       expect(state.tableHeaders.length).toBe(initialiseGridAction.payload);
     });
 
-    it('the number of cells in each row should be equal to the grid size', () => {
+    it('the number of boardPositions in each row should be equal to the grid size', () => {
       const initialiseGridAction: InitialiseGridAction = {
         payload: 15,
         type: 'INITIALISE_GRID'
       };
       const state: GridState = gridReducers.gridReducers(undefined, initialiseGridAction);
       expect(
-        state.tableRows.filter(r => r.cells.length === state.gridSize)
+        state.tableRows.filter(r => r.boardPositions.length === state.gridSize)
           .length === state.gridSize
       );
     });

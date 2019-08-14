@@ -1,18 +1,18 @@
 import { GameActions } from './game.actions';
-import {Ship} from '../../models/ship';
-import {BoardPosition} from '../../models/board-position';
+import {Player} from '../../models/player';
+import {PlayerInGameInfo} from '../../models/player-in-game-info';
 
 export interface GameState {
   numberOfPlayersInGame: number;
   playersTurnId?: number;
-  playersToSunkShips?: Map<string, Ship>;
-  playersToShotPositions?: Map<string, BoardPosition>;
-  playersInGame?: string[];
+  playerInGameInfos?: PlayerInGameInfo[];
+  playersInGame?: Player[];
   playersReady: number;
   gameId?: number;
   playerId?: number;
   playerReady: boolean;
   currentOrders: string;
+  disableShootingOption: boolean;
 }
 
 export const initialGameState: GameState = {
@@ -20,7 +20,10 @@ export const initialGameState: GameState = {
   playersReady: 0,
   playerReady: false,
   currentOrders:
-    'Create or join a game.'
+    'Create or join a game.',
+  disableShootingOption: false,
+  playersInGame: [],
+  playerInGameInfos: []
 };
 
 export function gameReducers(
@@ -62,10 +65,14 @@ export function gameReducers(
     }
     case 'GAME_STATUS_REQUEST_SUCCESS': {
       const newState: GameState = { ...state};
-      newState.playersInGame = Array.from(Object.keys(action.payload.playersToSunkShips));
-      newState.playersToSunkShips = action.payload.playersToSunkShips;
-      newState.playersToShotPositions = action.payload.playersToShotPositions;
-      newState.playersTurnId =  action.payload.playersTurnId;
+      console.log(action.payload);
+      action.payload.playerInGameInfos.forEach(playerInfo => {
+        newState.playersInGame.push({
+        'id': playerInfo.playerId,
+        'name': playerInfo.name});
+      });
+      newState.playersTurnId = action.payload.playersTurnId;
+      newState.playerInGameInfos = action.payload.playerInGameInfos;
       return newState;
     }
     case 'SHOOT_REQUEST_FAIL': {
@@ -76,6 +83,7 @@ export function gameReducers(
     case 'SHOOT_REQUEST_SUCCESS': {
       const newState: GameState = {...state};
       newState.currentOrders = 'Shot taken. Awaiting other players.';
+      newState.disableShootingOption = true;
       return newState;
     }
     default: {

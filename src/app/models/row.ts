@@ -1,9 +1,9 @@
 import { BoardPosition } from './board-position';
 
 export class Row {
-  cells: BoardPosition[];
+  boardPositions: BoardPosition[];
 
   constructor(cells: BoardPosition[]) {
-    this.cells = cells;
+    this.boardPositions = cells;
   }
 }

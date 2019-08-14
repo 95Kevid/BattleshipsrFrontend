@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {GameStatusResponse} from '../models/game-status-response';
+import { GameStatusResponse } from '../models/game-status-response';
+import {GameStatusRequest} from '../models/game-status-request';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class PollingService {
     return this.http.post<PlayersToPlayersReady>(this.playerToPlayerReadyUrl, gameId);
   }
 
-  pollForGameStatus(gameId: number): Observable<GameStatusResponse> {
-    return this.http.post<GameStatusResponse>(this.gameStatusUrl, gameId);
+  pollForGameStatus(gameStatusRequest: GameStatusRequest): Observable<GameStatusResponse> {
+      return this.http.post<GameStatusResponse>(this.gameStatusUrl, gameStatusRequest.gameId);
   }
 }

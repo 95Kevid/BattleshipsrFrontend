@@ -5,6 +5,7 @@ import {JoinGameRequest} from '../../models/join-game-request';
 import {JoinGameResponse} from '../../models/join-game-response';
 import {GameStatusResponse} from '../../models/game-status-response';
 import {ShootRequest} from '../../models/shoot-request';
+import {GameStatusRequest} from '../../models/game-status-request';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
@@ -12,7 +13,7 @@ export class PlayersToPlayersReadyPollAction implements Action {
 }
 
 export class GameStatusRequestAction implements Action {
-  constructor(public payload: number) {}
+  constructor(public payload: GameStatusRequest) {}
   readonly type = 'GAME_STATUS_REQUEST';
 }
 

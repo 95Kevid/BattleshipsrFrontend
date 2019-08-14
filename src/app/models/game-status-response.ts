@@ -1,8 +1,8 @@
-import {Ship} from './ship';
-import {BoardPosition} from './board-position';
+import {PlayerInGameInfo} from './player-in-game-info';
+
 
 export class GameStatusResponse {
+  playerInGameInfos: PlayerInGameInfo[];
   playersTurnId: number;
-  playersToShotPositions: Map<string, BoardPosition>;
-  playersToSunkShips: Map<string, Ship>;
+  thisPlayersId?: number;
 }
