@@ -57,6 +57,7 @@ export class GameControlComponent implements OnInit {
   showGrid = false;
 
   ngOnInit() {
+    console.log('Game control component init');
     this.gameId$ = this.store.select(state => state.gameState.gameId);
     this.playerId$ = this.store.select(state => state.gameState.playerId);
     this.playersInGame$ = this.store.select(
@@ -70,6 +71,7 @@ export class GameControlComponent implements OnInit {
     this.gameService.allPlayersReady()
       .subscribe((result: boolean) => {
         if (result) {
+          console.log('Navigate to shooting screen');
           this.navigationService.navigate('/shooting');
         }
       });

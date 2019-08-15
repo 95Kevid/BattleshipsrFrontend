@@ -6,8 +6,9 @@ import { JoinGameResponse } from '../models/join-game-response';
 import { JoinGameRequest } from '../models/join-game-request';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {map} from 'rxjs/operators';
+import {map, take, filter, flatMap} from 'rxjs/operators';
 import {ShootRequest} from '../models/shoot-request';
+import {Player} from '../models/player';
 
 @Injectable({
   providedIn: 'root'
@@ -37,11 +38,19 @@ export class GameService {
 
   allPlayersReady(): Observable<boolean> {
     return this.store.pipe(
-      map(state => state.gameState.numberOfPlayersInGame === state.gameState.playersReady && state.gameState.numberOfPlayersInGame !== 0)
-    );
+      map(state => state.gameState.numberOfPlayersInGame === state.gameState.playersReady && state.gameState.numberOfPlayersInGame !== 0),
+      filter(boolean => boolean === true),
+      take(1));
   }
 
   shootRequest(shootRequest: ShootRequest) {
     return this.http.post(this.shootRequestUrl, shootRequest);
+  }
+
+  checkForWinner(): Observable<Player> {
+    return this.store.pipe(
+      flatMap(state => state.gameState.playersInGame),
+      filter(player =>  player ? player.winner : false),
+      take(1));
   }
 }

@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
-import {Observable, zip} from 'rxjs';
-import {GameStatusRequestAction, ShootRequestAction} from '../../store/game/game.actions';
+import {Observable} from 'rxjs';
+import {GameStatusRequestAction, ShootRequestAction, WinnerFoundNavigateAction, WinnerSaveAction} from '../../store/game/game.actions';
 import {ShootRequest} from '../../models/shoot-request';
 import {PlayerInGameInfo} from '../../models/player-in-game-info';
+import {GameService} from '../../services/game.service';
+import {NavigationService} from '../../services/navigation.service';
+import {Player} from '../../models/player';
 
 @Component({
   selector: 'app-shooting-screen',
@@ -12,8 +15,6 @@ import {PlayerInGameInfo} from '../../models/player-in-game-info';
   styleUrls: ['./shooting-screen.component.scss']
 })
 export class ShootingScreenComponent implements OnInit {
-
-  private store: Store<AppState>;
   private gameId: number;
   private gameId$: Observable<number>;
   private playerId: number;
@@ -22,9 +23,7 @@ export class ShootingScreenComponent implements OnInit {
   private disableShootingOption: boolean;
   private disableShootingOption$: Observable<boolean>;
 
-  constructor(store: Store<AppState>) {
-    this.store = store;
-  }
+  constructor(private store: Store<AppState>, private gameService: GameService, private navigationService: NavigationService) {}
 
   ngOnInit() {
     this.gameId$ = this.store.select(state => state.gameState.gameId);
@@ -34,6 +33,14 @@ export class ShootingScreenComponent implements OnInit {
     this.playersInGameInfos$ = this.store.select(state => state.gameState.playerInGameInfos);
     this.disableShootingOption$ = this.store.select((state => state.gameState.disableShootingOption));
     this.disableShootingOption$.subscribe(state => this.disableShootingOption = state);
+    this.gameService.checkForWinner()
+      .subscribe((player: Player) => {
+        if (player) {
+          this.store.dispatch(new WinnerSaveAction(player));
+          console.log('Navigate to end-screen');
+          this.navigationService.navigate('/end-screen');
+        }
+      });
   }
 
   shoot(shootRequest: ShootRequest) {

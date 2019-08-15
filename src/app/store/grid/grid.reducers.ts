@@ -22,7 +22,7 @@ function renderShip(state: GridState, occupiedBoardPositions: BoardPosition[]) {
   for (const shipCell of occupiedBoardPositions) {
     outputState.tableRows[shipCell.row - 1].boardPositions[
       shipCell.col.charCodeAt(0) - 65
-    ].colour = 'pink';
+    ].colour = occupiedBoardPositions[0].colour;
   }
   return outputState;
 }
