@@ -6,4 +6,5 @@ export class PlayerInGameInfo {
   name: string;
   shotPositions: BoardPosition[];
   sunkShips: Ship[];
+  winner: boolean;
 }

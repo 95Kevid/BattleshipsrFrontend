@@ -13,6 +13,7 @@ export interface GameState {
   playerReady: boolean;
   currentOrders: string;
   disableShootingOption: boolean;
+  winner?: Player;
 }
 
 export const initialGameState: GameState = {
@@ -69,7 +70,8 @@ export function gameReducers(
       action.payload.playerInGameInfos.forEach(playerInfo => {
         newState.playersInGame.push({
         'id': playerInfo.playerId,
-        'name': playerInfo.name});
+        'name': playerInfo.name,
+        'winner': playerInfo.winner});
       });
       newState.playersTurnId = action.payload.playersTurnId;
       newState.playerInGameInfos = action.payload.playerInGameInfos;
@@ -84,6 +86,11 @@ export function gameReducers(
       const newState: GameState = {...state};
       newState.currentOrders = 'Shot taken. Awaiting other players.';
       newState.disableShootingOption = true;
+      return newState;
+    }
+    case 'WINNER_SAVE':  {
+      const newState: GameState = {...state};
+      newState.winner = action.payload;
       return newState;
     }
     default: {

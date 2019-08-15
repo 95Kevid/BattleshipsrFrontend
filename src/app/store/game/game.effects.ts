@@ -4,13 +4,22 @@ import { Effect, ofType, Actions } from '@ngrx/effects';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  GameCreatedAction, GameStatusRequestAction, GameStatusRequestSuccessAction, JoinGameAction, JoinGameRequestAction,
+  GameCreatedAction,
+  GameStatusRequestAction,
+  GameStatusRequestSuccessAction,
+  JoinGameAction,
+  JoinGameRequestAction,
   PlayerCreatedAction,
   PlayerReadyRequestAction,
   PlayerReadyRequestFailAction,
   PlayerReadySuccessAction,
   PlayersToPlayersReadyPollAction,
-  PlayersToPlayersReadyPollSuccessAction, ShootRequestAction, ShootRequestFailAction, ShootRequestSuccessAction
+  PlayersToPlayersReadyPollSuccessAction,
+  ShootRequestAction,
+  ShootRequestFailAction,
+  ShootRequestSuccessAction,
+  WinnerFoundNavigateAction,
+  WinnerSaveAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
@@ -108,4 +117,13 @@ export class GameEffects {
     map(_ => new ShootRequestSuccessAction()),
     catchError(err => of(new ShootRequestFailAction(err.toString())))))
   );
+
+  @Effect()
+  public winnerFoundNavigate$ = this.actions$.pipe(
+    ofType<WinnerFoundNavigateAction>('WINNER_FOUND_NAVIGATE'),
+    map(action => {
+      // this.navigationService.navigate('/end-screen');
+      return new WinnerSaveAction(action.payload);
+    }
+  ));
 }

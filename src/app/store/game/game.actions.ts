@@ -6,6 +6,7 @@ import {JoinGameResponse} from '../../models/join-game-response';
 import {GameStatusResponse} from '../../models/game-status-response';
 import {ShootRequest} from '../../models/shoot-request';
 import {GameStatusRequest} from '../../models/game-status-request';
+import {Player} from '../../models/player';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
@@ -89,6 +90,16 @@ export class ShootRequestSuccessAction implements Action {
   readonly type = 'SHOOT_REQUEST_SUCCESS';
 }
 
+export class WinnerFoundNavigateAction implements Action {
+  constructor(public payload: Player) {}
+  readonly type = 'WINNER_FOUND_NAVIGATE';
+}
+
+export class WinnerSaveAction implements Action {
+  constructor(public payload: Player)  {}
+  readonly type = 'WINNER_SAVE';
+}
+
 export type GameActions =
   | CreateGameRequestAction
   | GameCreatedAction
@@ -104,4 +115,6 @@ export type GameActions =
   | GameStatusRequestSuccessAction
   | ShootRequestAction
   | ShootRequestFailAction
-  | ShootRequestSuccessAction;
+  | ShootRequestSuccessAction
+  | WinnerFoundNavigateAction
+  | WinnerSaveAction;

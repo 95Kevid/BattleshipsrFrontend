@@ -8,6 +8,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {map} from 'rxjs/operators';
 import {ShootRequest} from '../models/shoot-request';
+import {Player} from '../models/player';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,9 @@ export class GameService {
 
   shootRequest(shootRequest: ShootRequest) {
     return this.http.post(this.shootRequestUrl, shootRequest);
+  }
+
+  checkForWinner(): Observable<Player> {
+    return this.store.pipe(map(state => state.gameState.playersInGame.filter(player => player.winner)[0]));
   }
 }
