@@ -95,8 +95,12 @@ export class WinnerFoundNavigateAction implements Action {
   readonly type = 'WINNER_FOUND_NAVIGATE';
 }
 
+export class LoserSaveAction implements Action {
+  constructor(public payload: number)  {}
+  readonly type = 'LOSER_SAVE';
+}
+
 export class WinnerSaveAction implements Action {
-  constructor(public payload: Player)  {}
   readonly type = 'WINNER_SAVE';
 }
 
@@ -117,4 +121,5 @@ export type GameActions =
   | ShootRequestFailAction
   | ShootRequestSuccessAction
   | WinnerFoundNavigateAction
+  | LoserSaveAction
   | WinnerSaveAction;

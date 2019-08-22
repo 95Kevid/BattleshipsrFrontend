@@ -67,12 +67,15 @@ export function gameReducers(
     case 'GAME_STATUS_REQUEST_SUCCESS': {
       const newState: GameState = { ...state};
       console.log(action.payload);
+      const playersInGame: Player[] = [];
       action.payload.playerInGameInfos.forEach(playerInfo => {
-          newState.playersInGame[playerInfo.playerId] =  ({
+        playersInGame[playerInfo.playerId] = ({
             'id': playerInfo.playerId,
             'name': playerInfo.name,
+            'loser': playerInfo.loser,
             'winner': playerInfo.winner});
-        })
+        });
+      newState.playersInGame = playersInGame;
       newState.playersTurnId = action.payload.playersTurnId;
       newState.playerInGameInfos = action.payload.playerInGameInfos;
       return newState;
@@ -88,10 +91,15 @@ export function gameReducers(
       newState.disableShootingOption = true;
       return newState;
     }
-    case 'WINNER_SAVE':  {
-      const newState: GameState = {...state};
-      newState.winner = action.payload;
+    case 'WINNER_SAVE': {
+      const newState: GameState = { ...state};
+      newState.playersInGame.forEach(player => {
+        if (player.winner) {
+          newState.winner = player;
+        }
+      })
       return newState;
+
     }
     default: {
       return state;

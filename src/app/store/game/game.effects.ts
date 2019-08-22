@@ -19,7 +19,7 @@ import {
   ShootRequestFailAction,
   ShootRequestSuccessAction,
   WinnerFoundNavigateAction,
-  WinnerSaveAction
+  LoserSaveAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
@@ -122,8 +122,8 @@ export class GameEffects {
   // public winnerFoundNavigate$ = this.actions$.pipe(
   //   ofType<WinnerFoundNavigateAction>('WINNER_FOUND_NAVIGATE'),
   //   map(action => {
-  //     // this.navigationService.navigate('/end-screen');
-  //     return new WinnerSaveAction(action.payload);
+  //     // this.navigationService.navigate('/winner-screen');
+  //     return new LoserSaveAction(action.payload);
   //   }
   // ));
 }

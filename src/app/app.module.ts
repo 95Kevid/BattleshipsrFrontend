@@ -28,7 +28,8 @@ import {AppRoutingModule} from './app-routing/app-routing-module';
 import { PlayerListBoxComponent } from './components/player-list-box/player-list-box.component';
 import { PlayerTurnInfoBoxComponent } from './components/in-game-status-box/player-turn-info-box.component';
 import { ShootingBoxComponent } from './components/shooting-box/shooting-box.component';
-import { EndScreenComponent } from './containers/end-screen/end-screen.component';
+import { EndScreenComponent } from './containers/winner-screen/end-screen.component';
+import { FinishScreenComponent } from './containers/finish-screen/finish-screen.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { EndScreenComponent } from './containers/end-screen/end-screen.component
     PlayerListBoxComponent,
     PlayerTurnInfoBoxComponent,
     ShootingBoxComponent,
-    EndScreenComponent
+    EndScreenComponent,
+    FinishScreenComponent
   ],
   imports: [
     BrowserModule,

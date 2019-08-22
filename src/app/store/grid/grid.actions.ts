@@ -14,7 +14,7 @@ export class RenderShipAction implements Action {
 }
 
 export class RenderHitPosition implements Action {
-  constructor(public payload: PlayerInGameInfo) {}
+    constructor(public payload: PlayerInGameInfo) {}
   readonly type = 'RENDER_HIT_POSITION';
 }
 

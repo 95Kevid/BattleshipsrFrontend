@@ -1,5 +1,6 @@
 export class Player {
   id: number;
   name: string;
-  winner: boolean;
+  loser: boolean;
+  winner?: boolean;
 }

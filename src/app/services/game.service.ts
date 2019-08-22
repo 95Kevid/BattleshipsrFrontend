@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CreateGameRequest } from '../models/create-game-request';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import { JoinGameResponse } from '../models/join-game-response';
 import { JoinGameRequest } from '../models/join-game-request';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {map, take, filter, flatMap} from 'rxjs/operators';
+import {map, take, filter, flatMap, toArray, isEmpty, count, first} from 'rxjs/operators';
 import {ShootRequest} from '../models/shoot-request';
 import {Player} from '../models/player';
 
@@ -45,12 +45,5 @@ export class GameService {
 
   shootRequest(shootRequest: ShootRequest) {
     return this.http.post(this.shootRequestUrl, shootRequest);
-  }
-
-  checkForWinner(): Observable<Player> {
-    return this.store.pipe(
-      flatMap(state => state.gameState.playersInGame),
-      filter(player =>  player ? player.winner : false),
-      take(1));
   }
 }

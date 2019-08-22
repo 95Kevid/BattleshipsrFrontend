@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {GameStatusRequestAction, ShootRequestAction, WinnerFoundNavigateAction, WinnerSaveAction} from '../../store/game/game.actions';
+import {GameStatusRequestAction, ShootRequestAction, LoserSaveAction, WinnerSaveAction} from '../../store/game/game.actions';
 import {ShootRequest} from '../../models/shoot-request';
 import {PlayerInGameInfo} from '../../models/player-in-game-info';
 import {GameService} from '../../services/game.service';
 import {NavigationService} from '../../services/navigation.service';
 import {Player} from '../../models/player';
+import {PlayerService} from '../../services/player.service';
 
 @Component({
   selector: 'app-shooting-screen',
@@ -20,10 +21,12 @@ export class ShootingScreenComponent implements OnInit {
   private playerId: number;
   private playerId$: Observable<number>;
   private playersInGameInfos$: Observable<PlayerInGameInfo[]>;
+  private playersInGame$: Observable<Player[]>;
   private disableShootingOption: boolean;
   private disableShootingOption$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private gameService: GameService, private navigationService: NavigationService) {}
+  constructor(private store: Store<AppState>, private gameService: GameService, private navigationService: NavigationService,
+              private playerService: PlayerService) {}
 
   ngOnInit() {
     this.gameId$ = this.store.select(state => state.gameState.gameId);
@@ -33,14 +36,19 @@ export class ShootingScreenComponent implements OnInit {
     this.playersInGameInfos$ = this.store.select(state => state.gameState.playerInGameInfos);
     this.disableShootingOption$ = this.store.select((state => state.gameState.disableShootingOption));
     this.disableShootingOption$.subscribe(state => this.disableShootingOption = state);
-    this.gameService.checkForWinner()
-      .subscribe((player: Player) => {
-        if (player) {
-          this.store.dispatch(new WinnerSaveAction(player));
-          console.log('Navigate to end-screen');
-          this.navigationService.navigate('/end-screen');
+    this.playersInGame$ = this.store.select(state => state.gameState.playersInGame);
+    this.playerService.getWinner(this.playersInGame$)
+      .subscribe((winner => {
+        if (winner) {
+          console.log('Navigate to winner-screen');
+          this.store.dispatch(new WinnerSaveAction());
+          this.navigationService.navigate('/winner-screen');
         }
-      });
+      }));
+
+    this.playerService.isLoser(this.playerId, this.playersInGame$)
+      .subscribe(loser =>
+        this.navigationService.navigate('/losing-screen'));
   }
 
   shoot(shootRequest: ShootRequest) {
