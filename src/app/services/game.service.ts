@@ -46,4 +46,8 @@ export class GameService {
   shootRequest(shootRequest: ShootRequest) {
     return this.http.post(this.shootRequestUrl, shootRequest);
   }
+
+  checkForWinner(): Observable<Player> {
+    return this.store.pipe(map(state => state.gameState.playersInGame.filter(player => player.winner)[0]));
+  }
 }
