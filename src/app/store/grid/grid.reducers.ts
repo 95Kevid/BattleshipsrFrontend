@@ -1,8 +1,7 @@
-import {Row} from '../../models/row';
-import {Cell} from '../../models/cell';
-import {GridActions} from './grid.actions';
-import {GridParameters} from '../../models/gridParameters';
-
+import { Row } from '../../models/row';
+import { Cell } from '../../models/cell';
+import { GridActions } from './grid.actions';
+import { GridParameters } from '../../models/gridParameters';
 
 export interface GridState {
   tableRows: Row[];
@@ -19,21 +18,26 @@ export const initialGridState: GridState = {
 };
 
 function renderShip(state: GridState, occupiedBoardPositions: Cell[]) {
-  const outputState = {...state};
+  const outputState = { ...state };
   for (const shipCell of occupiedBoardPositions) {
-    outputState.tableRows[shipCell.row - 1].cells[shipCell.col.charCodeAt(0) - 65].colour = 'pink';
+    outputState.tableRows[shipCell.row - 1].cells[
+      shipCell.col.charCodeAt(0) - 65
+    ].colour = 'pink';
   }
   return outputState;
 }
 
-export function gridReducers(state: GridState = initialGridState, action: GridActions) {
+export function gridReducers(
+  state: GridState = initialGridState,
+  action: GridActions
+) {
   switch (action.type) {
     case 'INITIALISE_GRID': {
       const gridParameters = initialiseGrid(action.payload);
       return {
         ...state,
         ...gridParameters,
-        lengthOfRows: gridParameters.tableRows.length,
+        lengthOfRows: gridParameters.tableRows.length
       };
     }
     case 'RENDER_SHIP': {
@@ -59,12 +63,11 @@ function initialiseGrid(gridSize: number): GridParameters {
     for (let j = 0; j < gridSize; j++) {
       const cell: Cell = {
         col: gridParameters.tableHeaders[j].toString(),
-        row: (i),
+        row: i,
         colour: 'blue',
         hit: false,
         equals: c => {
-          return c.col === cell.col
-            && c.row === cell.row;
+          return c.col === cell.col && c.row === cell.row;
         }
       };
       cells[j] = cell;
@@ -73,8 +76,3 @@ function initialiseGrid(gridSize: number): GridParameters {
   }
   return gridParameters;
 }
-
-
-
-
-

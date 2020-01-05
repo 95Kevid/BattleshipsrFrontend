@@ -1,11 +1,27 @@
-<button (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">Create Game</button>
-<button (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">Join Game</button>
-<app-create-game-box *ngIf="showGameCreationMenu" [gameId$]="gameId$"
-                     (createGameEvent)="createGame($event)"></app-create-game-box>
-<app-create-player-box *ngIf="showPlayerCreationMenu"
-                       (createPlayerRequest)="createPlayer($event)"></app-create-player-box>
+<app-current-order-box [orders$]="orders$"></app-current-order-box>
+<button (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">
+  Create Game
+</button>
+<button (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
+  Join Game
+</button>
+<app-create-game-box
+  *ngIf="showGameCreationMenu"
+  [gameId$]="gameId$"
+  (createGameEvent)="createGame($event)"
+></app-create-game-box>
+<app-join-game-box *ngIf="showJoinGameMenu" (joinGameRequest$)="joinGame($event)"></app-join-game-box>
+<app-create-player-box
+  *ngIf="showPlayerCreationMenu"
+  (createPlayerRequest)="createPlayer($event)"
+></app-create-player-box>
 <app-game-grid> *ngIf="showGrid"></app-game-grid>
 <app-ship-placer *ngIf="showShipPlacerMenu"></app-ship-placer>
-<app-game-status-box [playersInGame$]="playersInGame$" [playersReady$]="playersReady$"></app-game-status-box>
-<app-game-control-box (callForPlayerPollEvent$)="pollForPlayersToPlayersReady()"
-                      (startGame$)="readyToStartGame()"></app-game-control-box>
+<app-game-status-box
+  [playersInGame$]="playersInGame$"
+  [playersReady$]="playersReady$"
+></app-game-status-box>
+<app-game-control-box
+  (callForPlayerPollEvent$)="pollForPlayersToPlayersReady()"
+  (startGame$)="readyToStartGame()"
+></app-game-control-box>

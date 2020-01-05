@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {CreateGameRequest} from '../../models/create-game-request';
-import {Observable} from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { CreateGameRequest } from '../../models/create-game-request';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-game-box',
@@ -9,27 +9,26 @@ import {Observable} from 'rxjs';
   styleUrls: ['./create-game-box.component.scss']
 })
 export class CreateGameBoxComponent implements OnInit {
-
-  constructor() {
-  }
+  constructor() {}
 
   @Input() gameId$: Observable<number>;
-  @Output() createGameEvent: EventEmitter<CreateGameRequest> = new EventEmitter();
+  @Output() createGameEvent: EventEmitter<
+    CreateGameRequest
+  > = new EventEmitter();
 
   formGroup: FormGroup = new FormGroup({
-      numberOfPlayers: new FormControl(''),
-      gridSize: new FormControl('')
-    }
-  );
+    numberOfPlayers: new FormControl(''),
+    gridSize: new FormControl('')
+  });
 
   formDisabled = false;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit() {
     console.log('submit called');
-    const numberOfPlayers: number = this.formGroup.controls['numberOfPlayers'].value;
+    const numberOfPlayers: number = this.formGroup.controls['numberOfPlayers']
+      .value;
     const gridSize: number = this.formGroup.controls['gridSize'].value;
     const createGameRequest: CreateGameRequest = {
       numberOfPlayers: numberOfPlayers,

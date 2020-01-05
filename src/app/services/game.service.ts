@@ -1,21 +1,30 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {CreateGameRequest} from '../models/create-game-request';
-import {Observable} from 'rxjs';
-
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CreateGameRequest } from '../models/create-game-request';
+import { Observable } from 'rxjs';
+import { JoinGameResponse } from '../models/join-game-response';
+import { JoinGameRequest } from '../models/join-game-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-
   private createGameUrl = 'http://localhost:9721/creategame/';
+  private joinGameUrl = 'http://localhost:9721/joingame/';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   createGame(createGameRequest: CreateGameRequest): Observable<number> {
-    const request = createGameRequest;
-    return this.http.post<number>(this.createGameUrl + request.numberOfPlayers + '/' + request.gridSize, null);
+    return this.http.post<number>(
+      this.createGameUrl +
+        createGameRequest.numberOfPlayers +
+        '/' +
+        createGameRequest.gridSize,
+      null
+    );
+  }
+
+  joinGame(joinGameRequest: JoinGameRequest): Observable<JoinGameResponse> {
+    return this.http.post<JoinGameResponse>(this.joinGameUrl, joinGameRequest);
   }
 }

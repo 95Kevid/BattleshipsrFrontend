@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {ShipPlaceRequest} from '../../models/ship-place-request';
-import {Observable} from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ShipPlaceRequest } from '../../models/ship-place-request';
+import { Observable } from 'rxjs';
+import { ShipType } from '../../models/ship-type';
 
 @Component({
   selector: 'app-ship-position-box',
@@ -9,15 +10,14 @@ import {Observable} from 'rxjs';
   styleUrls: ['./ship-position-box.component.scss']
 })
 export class ShipPositionBoxComponent {
+  constructor() {}
 
-  constructor() {
-
-  }
-
-  @Input() shipType: string;
+  @Input() shipType: ShipType;
   @Input() tableHeaders$: Observable<string[]>;
   @Input() rowNumbers: number[];
-  @Output() shipPlacementUpdate: EventEmitter<ShipPlaceRequest> = new EventEmitter();
+  @Output() shipPlacementUpdate: EventEmitter<
+    ShipPlaceRequest
+  > = new EventEmitter();
 
   shipPlacingForm = new FormGroup({
     col: new FormControl(''),
@@ -30,9 +30,16 @@ export class ShipPositionBoxComponent {
   private shipPlaceRequest: ShipPlaceRequest = new ShipPlaceRequest();
 
   submitPlacement() {
-    this.shipPlaceRequest.boardPosition.col = this.shipPlacingForm.get('col').value;
-    this.shipPlaceRequest.boardPosition.row = this.shipPlacingForm.get('row').value;
-    this.shipPlaceRequest.orientation = this.shipPlacingForm.get('orientation').value;
+    this.shipPlaceRequest.boardPosition.col = this.shipPlacingForm.get(
+      'col'
+    ).value;
+    this.shipPlaceRequest.boardPosition.row = this.shipPlacingForm.get(
+      'row'
+    ).value;
+    this.shipPlaceRequest.orientation = this.shipPlacingForm.get(
+      'orientation'
+    ).value;
+    this.shipPlaceRequest.shipType = this.shipType;
     this.shipPlacementUpdate.emit(this.shipPlaceRequest);
     this.disableShipPlacementForm();
   }

@@ -1,4 +1,4 @@
-import {Row} from './row';
+import { Row } from './row';
 
 export class GridParameters {
   tableHeaders: string[];

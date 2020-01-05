@@ -1,18 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {GameService} from '../../services/game.service';
-import {PlayerService} from '../../services/player.service';
-import {CreateGameRequest} from '../../models/create-game-request';
-import {Store} from '@ngrx/store';
-import {InitialiseGridAction} from '../../store/grid/grid.actions';
-import {PollingService} from '../../services/polling.service';
+import { Component, OnInit } from '@angular/core';
+import { GameService } from '../../services/game.service';
+import { PlayerService } from '../../services/player.service';
+import { CreateGameRequest } from '../../models/create-game-request';
+import { Store } from '@ngrx/store';
+import { InitialiseGridAction } from '../../store/grid/grid.actions';
+import { PollingService } from '../../services/polling.service';
 import {
   CreateGameRequestAction,
-  CreatePlayerRequestAction,
+  CreatePlayerRequestAction, JoinGameRequestAction,
   PlayerReadyRequestAction,
-  PlayersToPlayersReadyPollAction
+  PlayersToPlayersReadyPollAction, UpdateOrdersAction
 } from '../../store/game/game.actions';
-import {Observable} from 'rxjs';
-import {AppState} from '../../store';
+import { Observable } from 'rxjs';
+import { AppState } from '../../store';
+import {JoinGameRequest} from '../../models/join-game-request';
 
 @Component({
   selector: 'app-game-control',
@@ -20,7 +21,6 @@ import {AppState} from '../../store';
   styleUrls: ['./game-control.component.scss']
 })
 export class GameControlComponent implements OnInit {
-
   private gameService: GameService;
   private createPlayerService: PlayerService;
   private store: Store<AppState>;
@@ -30,8 +30,14 @@ export class GameControlComponent implements OnInit {
   private gameId$: Observable<number>;
   private gameId: number;
   private playerId$: Observable<number>;
+  private orders$: Observable<string>;
 
-  constructor(gameService: GameService, createPlayerService: PlayerService, store: Store<AppState>, pollingService: PollingService) {
+  constructor(
+    gameService: GameService,
+    createPlayerService: PlayerService,
+    store: Store<AppState>,
+    pollingService: PollingService
+  ) {
     this.gameService = gameService;
     this.createPlayerService = createPlayerService;
     this.store = store;
@@ -47,30 +53,42 @@ export class GameControlComponent implements OnInit {
   ngOnInit() {
     this.gameId$ = this.store.select(state => state.gameState.gameId);
     this.playerId$ = this.store.select(state => state.gameState.playerId);
-    this.playersInGame$ = this.store.select(state => state.gameState.playersInGame);
-    this.playersReady$ = this.store.select(state => state.gameState.playersReady);
+    this.playersInGame$ = this.store.select(
+      state => state.gameState.playersInGame
+    );
+    this.playersReady$ = this.store.select(
+      state => state.gameState.playersReady
+    );
+    this.orders$ = this.store.select(state => state.gameState.currentOrders);
   }
 
   createGameButtonClicked() {
     this.showGameCreationMenu = true;
+    this.store.dispatch(new UpdateOrdersAction('Enter number of players and the size of the game grid (6 - 26)'));
   }
 
   joinGameButtonClicked() {
     this.showJoinGameMenu = true;
-    this.showPlayerCreationMenu = true;
   }
 
   createGame(createGameRequest: CreateGameRequest) {
     this.showPlayerCreationMenu = true;
     this.store.dispatch(new InitialiseGridAction(createGameRequest.gridSize));
     this.store.dispatch(new CreateGameRequestAction(createGameRequest));
-    this.gameId$.subscribe(state => this.gameId = state);
+    this.store.dispatch(new UpdateOrdersAction('Enter the your name.'));
+    this.gameId$.subscribe(state => (this.gameId = state));
   }
 
   createPlayer(playerName: string) {
-    this.store.dispatch(new CreatePlayerRequestAction({gameId: this.gameId, playerName: playerName}));
+    this.store.dispatch(
+      new CreatePlayerRequestAction({
+        gameId: this.gameId,
+        playerName: playerName
+      })
+    );
     this.showShipPlacerMenu = true;
     this.showGrid = true;
+    this.store.dispatch(new UpdateOrdersAction('Place your ships and click start.'));
   }
 
   pollForPlayersToPlayersReady() {
@@ -79,7 +97,12 @@ export class GameControlComponent implements OnInit {
 
   readyToStartGame() {
     let playerId: number;
-    this.playerId$.subscribe(pid => playerId = pid);
+    this.playerId$.subscribe(pid => (playerId = pid));
     this.store.dispatch(new PlayerReadyRequestAction(playerId));
+    this.store.dispatch(new UpdateOrdersAction('Await other players to join...'));
+  }
+
+  joinGame(joinGameRequest: JoinGameRequest) {
+    this.store.dispatch(new JoinGameRequestAction(joinGameRequest));
   }
 }

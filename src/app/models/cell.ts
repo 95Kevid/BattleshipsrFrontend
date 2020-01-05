@@ -5,7 +5,6 @@ export class Cell {
   hit: boolean;
 
   public equals(cell: Cell) {
-    return cell.col === this.col
-      && cell.row === this.row;
+    return cell.col === this.col && cell.row === this.row;
   }
 }

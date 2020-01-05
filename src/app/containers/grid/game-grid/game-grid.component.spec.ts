@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameGridComponent } from './game-grid.component';
+import { GridBoxComponent } from '../../../components/grid/grid-box.component';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../../store';
 
 describe('GameGridComponent', () => {
   let component: GameGridComponent;
@@ -8,9 +12,9 @@ describe('GameGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameGridComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule, StoreModule.forRoot(reducers)],
+      declarations: [GameGridComponent, GridBoxComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

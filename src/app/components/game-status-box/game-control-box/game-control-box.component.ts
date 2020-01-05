@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-game-control-box',
@@ -6,17 +6,15 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./game-control-box.component.scss']
 })
 export class GameControlBoxComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
   @Output() callForPlayerPollEvent$: EventEmitter<void> = new EventEmitter();
   @Output() startGame$: EventEmitter<void> = new EventEmitter();
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   pollForPlayersToPlayersReady() {
     this.callForPlayerPollEvent$.emit();
   }
-  
+
   startGame() {
     this.startGame$.emit();
   }

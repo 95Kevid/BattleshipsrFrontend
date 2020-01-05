@@ -8,9 +8,8 @@ describe('GameControlBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameControlBoxComponent ]
-    })
-    .compileComponents();
+      declarations: [GameControlBoxComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
