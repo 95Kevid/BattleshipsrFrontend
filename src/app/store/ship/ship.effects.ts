@@ -7,7 +7,7 @@ import {
   AddShipSuceededAction,
   ShipPlaceFailedAction
 } from './ship.actions';
-import { RenderShipAction } from '../grid/grid.actions';
+import { RenderShipAction } from '../game-arena/game-arena.actions';
 import { of } from 'rxjs';
 
 @Injectable()

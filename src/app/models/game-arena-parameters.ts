@@ -1,6 +1,6 @@
 import { Row } from './row';
 
-export class GridParameters {
+export class GameArenaParameters {
   tableHeaders: string[];
   tableRows: Row[];
 }

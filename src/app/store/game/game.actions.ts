@@ -7,7 +7,7 @@ import {GameStatusResponse} from '../../models/game-status-response';
 import {ShootRequest} from '../../models/shoot-request';
 import {GameStatusRequest} from '../../models/game-status-request';
 import {Player} from '../../models/player';
-import {LoadGameRequest} from '../../models/LoadGameRequest';
+import {LoadGameResponse} from '../../models/load-game-response';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
@@ -101,7 +101,7 @@ export class WinnerSaveAction implements Action {
 }
 
 export class LoadGameRequestAction implements Action {
-  constructor(public payload: LoadGameRequest) {}
+  constructor(public payload: LoadGameResponse) {}
   readonly type = 'LOAD_GAME_REQUEST';
 }
 

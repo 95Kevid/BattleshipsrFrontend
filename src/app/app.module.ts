@@ -32,6 +32,7 @@ import { FinishScreenComponent } from './containers/finish-screen/finish-screen.
 import { LoserScreenComponent } from './containers/loser-screen/loser-screen.component';
 import { LoadGameBoxComponent } from './components/load-game-box/load-game-box.component';
 import { MessagesComponent } from './messages/messages.component';
+import { GameArenaEffects } from './store/game-arena/game-arena.effects';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { MessagesComponent } from './messages/messages.component';
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([ShipEffects, GameEffects]),
+    EffectsModule.forRoot([ShipEffects, GameEffects, GameArenaEffects]),
     AppRoutingModule
   ],
   providers: [],

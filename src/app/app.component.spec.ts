@@ -50,7 +50,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  // it('should create a grid with width of board size of 10', () => {
+  // it('should create a game-arena with width of board size of 10', () => {
   //   component.boardSize = 10;
   //
   //   fixture.detectChanges();

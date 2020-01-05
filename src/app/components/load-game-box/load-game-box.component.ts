@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {LoadGameRequest} from '../../models/LoadGameRequest';
+import {LoadGameResponse} from '../../models/load-game-response';
 
 @Component({
   selector: 'app-load-game-box',
@@ -20,7 +20,7 @@ export class LoadGameBoxComponent implements OnInit {
   ngOnInit() {}
 
   loadGameButtonClicked() {
-    const loadGameRequest: LoadGameRequest = {
+    const loadGameRequest: LoadGameResponse = {
       playerId: this.loadGameFormGroup.controls['playerId'].value,
       gameId: this.loadGameFormGroup.controls['gameId'].value}
     this.loadGameRequest$.emit(loadGameRequest);

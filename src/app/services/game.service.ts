@@ -9,6 +9,9 @@ import {AppState} from '../store';
 import {map, take, filter, flatMap, toArray, isEmpty, count, first} from 'rxjs/operators';
 import {ShootRequest} from '../models/shoot-request';
 import {Player} from '../models/player';
+import { LoadGameResponse } from '../models/load-game-response';
+import { CreateGameResponse } from '../models/create-game-response';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +23,8 @@ export class GameService {
 
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-  createGame(createGameRequest: CreateGameRequest): Observable<number> {
-    return this.http.post<number>(
+  createGame(createGameRequest: CreateGameRequest): Observable<CreateGameResponse> {
+    return this.http.post<CreateGameResponse>(
       this.createGameUrl +
         createGameRequest.numberOfPlayers +
         '/' +
@@ -49,5 +52,9 @@ export class GameService {
 
   checkForWinner(): Observable<Player> {
     return this.store.pipe(map(state => state.gameState.playersInGame.filter(player => player.winner)[0]));
+  }
+
+  loadGame(loadGameRequest: LoadGameResponse): Observable<LoadGameResponse> {
+    return
   }
 }

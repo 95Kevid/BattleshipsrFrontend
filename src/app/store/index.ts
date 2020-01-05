@@ -1,4 +1,4 @@
-import { gridReducers, GridState } from './grid/grid.reducers';
+import { gridReducers, GridState } from './game-arena/grid.reducers';
 import { shipReducers, ShipState } from './ship/ship.reducers';
 import { ActionReducerMap } from '@ngrx/store';
 import { gameReducers, GameState } from './game/game.reducers';

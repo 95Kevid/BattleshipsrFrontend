@@ -1,11 +1,11 @@
-import {GridActions, InitialiseGridAction} from './grid.actions';
+import {GameArenaActions, InitialiseGameArena} from './game-arena.actions';
 import * as gridReducers from './grid.reducers';
 import {GridState, initialGridState} from './grid.reducers';
 
 describe('Grid reducers', () => {
   describe('Undefined action', () => {
     it('Should return the default state', () => {
-      const undefinedAction: GridActions = {
+      const undefinedAction: GameArenaActions = {
         payload: 12,
         type: 'undefinedAction'
       };
@@ -14,9 +14,9 @@ describe('Grid reducers', () => {
     });
   });
 
-  describe('Initialise grid action', () => {
-    it('Number of rows should be equal to the grid size provided', () => {
-      const initialiseGridAction: InitialiseGridAction = {
+  describe('Initialise game-arena action', () => {
+    it('Number of rows should be equal to the game-arena size provided', () => {
+      const initialiseGridAction: InitialiseGameArena = {
         payload: 15,
         type: 'INITIALISE_GRID'
       };
@@ -24,8 +24,8 @@ describe('Grid reducers', () => {
       expect(state.tableRows.length).toBe(initialiseGridAction.payload);
     });
 
-    it('Number of table headers should be equal to the grid size', () => {
-      const initialiseGridAction: InitialiseGridAction = {
+    it('Number of table headers should be equal to the game-arena size', () => {
+      const initialiseGridAction: InitialiseGameArena = {
         payload: 15,
         type: 'INITIALISE_GRID'
       };
@@ -33,8 +33,8 @@ describe('Grid reducers', () => {
       expect(state.tableHeaders.length).toBe(initialiseGridAction.payload);
     });
 
-    it('the number of boardPositions in each row should be equal to the grid size', () => {
-      const initialiseGridAction: InitialiseGridAction = {
+    it('the number of boardPositions in each row should be equal to the game-arena size', () => {
+      const initialiseGridAction: InitialiseGameArena = {
         payload: 15,
         type: 'INITIALISE_GRID'
       };
