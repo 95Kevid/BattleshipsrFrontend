@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { GameControlComponent } from './containers/game-control/game-control.component';
+import { StartScreenComponent } from './containers/start-screen/start-screen.component';
 import { CreateGameBoxComponent } from './components/create-game-box/create-game-box.component';
 import { CreatePlayerBoxComponent } from './components/create-player-box/create-player-box.component';
 import { GameGridComponent } from './containers/grid/game-grid/game-grid.component';
@@ -28,7 +28,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        GameControlComponent,
+        StartScreenComponent,
         GameControlBoxComponent,
         CreateGameBoxComponent,
         CreatePlayerBoxComponent,

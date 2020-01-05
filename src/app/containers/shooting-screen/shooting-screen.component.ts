@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {GameStatusRequestAction, ShootRequestAction, LoserSaveAction, WinnerSaveAction} from '../../store/game/game.actions';
+import {GameStatusRequestAction, ShootRequestAction, WinnerSaveAction} from '../../store/game/game.actions';
 import {ShootRequest} from '../../models/shoot-request';
 import {PlayerInGameInfo} from '../../models/player-in-game-info';
 import {GameService} from '../../services/game.service';
@@ -45,10 +45,13 @@ export class ShootingScreenComponent implements OnInit {
           this.navigationService.navigate('/winner-screen');
         }
       }));
-
     this.playerService.isLoser(this.playerId, this.playersInGame$)
-      .subscribe(loser =>
-        this.navigationService.navigate('/losing-screen'));
+      .subscribe((isLoser => {
+        if (isLoser) {
+          console.log('Navigate to loser screen');
+          this.navigationService.navigate('/loser-screen');
+        }
+      }));
   }
 
   shoot(shootRequest: ShootRequest) {

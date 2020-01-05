@@ -8,7 +8,7 @@ import {PollingService} from '../../services/polling.service';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  JoinGameRequestAction,
+  JoinGameRequestAction, LoadGameRequestAction,
   PlayerReadyRequestAction,
   PlayersToPlayersReadyPollAction,
   UpdateOrdersAction
@@ -17,13 +17,14 @@ import {Observable} from 'rxjs';
 import {AppState} from '../../store';
 import {JoinGameRequest} from '../../models/join-game-request';
 import {NavigationService} from '../../services/navigation.service';
+import {LoadGameRequest} from '../../models/LoadGameRequest';
 
 @Component({
   selector: 'app-game-control',
-  templateUrl: './game-control.component.html',
-  styleUrls: ['./game-control.component.scss']
+  templateUrl: './start-screen.component.html',
+  styleUrls: ['./start-screen.component.scss']
 })
-export class GameControlComponent implements OnInit {
+export class StartScreenComponent implements OnInit {
   private gameService: GameService;
   private createPlayerService: PlayerService;
   private navigationService: NavigationService;
@@ -55,6 +56,7 @@ export class GameControlComponent implements OnInit {
   showJoinGameMenu = false;
   showShipPlacerMenu = false;
   showGrid = false;
+  showLoadGameMenu = false;
 
   ngOnInit() {
     console.log('Game control component init');
@@ -121,5 +123,13 @@ export class GameControlComponent implements OnInit {
     this.gameId$.subscribe(state => (this.gameId = state));
     this.store.dispatch(new JoinGameRequestAction(joinGameRequest));
     this.showShipPlacerMenu = true;
+  }
+
+  loadGame(loadGameRequest: LoadGameRequest) {
+    this.store.dispatch(new LoadGameRequestAction(loadGameRequest));
+  }
+
+  loadGameButtonClicked() {
+    this.showLoadGameMenu = true;
   }
 }

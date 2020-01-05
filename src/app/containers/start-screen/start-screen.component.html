@@ -5,12 +5,16 @@
 <button id="outerJoinGameButton" (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
   Join Game
 </button>
+<button id="outerLoadGameButton" (click)="loadGameButtonClicked()" [disabled]="showLoadGameMenu">
+  Load Game
+</button>
 <app-create-game-box
   *ngIf="showGameCreationMenu"
   [gameId$]="gameId$"
   (createGameEvent)="createGame($event)"
 ></app-create-game-box>
 <app-join-game-box *ngIf="showJoinGameMenu" (joinGameRequest$)="joinGame($event)"></app-join-game-box>
+<app-load-game-box *ngIf="showLoadGameMenu" (loadGameRequest$)="loadGame($event)"></app-load-game-box>
 <app-create-player-box
   *ngIf="showPlayerCreationMenu"
   (createPlayerRequest)="createPlayer($event)"

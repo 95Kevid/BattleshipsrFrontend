@@ -99,7 +99,6 @@ export function gameReducers(
         }
       })
       return newState;
-
     }
     default: {
       return state;

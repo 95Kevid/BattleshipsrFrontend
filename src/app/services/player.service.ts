@@ -36,6 +36,7 @@ export class PlayerService {
   isLoser(playerId: number, playersInfos$: Observable<Player[]>): Observable<Player> {
     return playersInfos$.pipe(
       flatMap(player => player),
+      filter(player => player !== undefined),
       filter(player => player.id === playerId
                 && player.loser));
   }

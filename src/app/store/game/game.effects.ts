@@ -8,7 +8,7 @@ import {
   GameStatusRequestAction,
   GameStatusRequestSuccessAction,
   JoinGameAction,
-  JoinGameRequestAction,
+  JoinGameRequestAction, LoadGameRequestAction,
   PlayerCreatedAction,
   PlayerReadyRequestAction,
   PlayerReadyRequestFailAction,
@@ -17,9 +17,7 @@ import {
   PlayersToPlayersReadyPollSuccessAction,
   ShootRequestAction,
   ShootRequestFailAction,
-  ShootRequestSuccessAction,
-  WinnerFoundNavigateAction,
-  LoserSaveAction
+  ShootRequestSuccessAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
@@ -28,6 +26,7 @@ import { of } from 'rxjs';
 import {InitialiseGridAction, RenderHitPosition} from '../grid/grid.actions';
 import {NavigationService} from '../../services/navigation.service';
 import {GetThisPlayersInfoService} from '../../services/get-this-players-info.service';
+
 
 export var thisPlayerId: number;
 
@@ -117,6 +116,15 @@ export class GameEffects {
     map(_ => new ShootRequestSuccessAction()),
     catchError(err => of(new ShootRequestFailAction(err.toString())))))
   );
+
+  // @Effect()
+  // public loadGameRequest$ = this.actions$.pipe(
+  //   ofType<LoadGameRequestAction>('LOAD_GAME_REQUEST'),
+  //   map(action => {console.log('Load Request called.'); return action.payload}),
+  //   switchMap(loadGameRequest => this.gameService.loadGame(loadGameRequest).pipe(
+  //     map(_ => new ShootRequestSuccessAction()),
+  //     catchError(err => of(new ShootRequestFailAction(err.toString())))))
+  // );
 
   // @Effect()
   // public winnerFoundNavigate$ = this.actions$.pipe(

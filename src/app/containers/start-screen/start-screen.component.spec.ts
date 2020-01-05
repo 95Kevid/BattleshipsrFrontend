@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameControlComponent } from './game-control.component';
+import { StartScreenComponent } from './start-screen.component';
 import { GameControlBoxComponent } from '../../components/start-game-status-box/game-control-box/game-control-box.component';
 import { CreateGameBoxComponent } from '../../components/create-game-box/create-game-box.component';
 import { CreatePlayerBoxComponent } from '../../components/create-player-box/create-player-box.component';
@@ -14,9 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../store';
 
-describe('GameControlComponent', () => {
-  let component: GameControlComponent;
-  let fixture: ComponentFixture<GameControlComponent>;
+describe('StartScreenComponent', () => {
+  let component: StartScreenComponent;
+  let fixture: ComponentFixture<StartScreenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,7 +27,7 @@ describe('GameControlComponent', () => {
         StoreModule.forRoot(reducers)
       ],
       declarations: [
-        GameControlComponent,
+        StartScreenComponent,
         GameControlBoxComponent,
         CreateGameBoxComponent,
         CreatePlayerBoxComponent,
@@ -42,7 +42,7 @@ describe('GameControlComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameControlComponent);
+    fixture = TestBed.createComponent(StartScreenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

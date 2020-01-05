@@ -7,6 +7,7 @@ import {GameStatusResponse} from '../../models/game-status-response';
 import {ShootRequest} from '../../models/shoot-request';
 import {GameStatusRequest} from '../../models/game-status-request';
 import {Player} from '../../models/player';
+import {LoadGameRequest} from '../../models/LoadGameRequest';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
@@ -95,13 +96,13 @@ export class WinnerFoundNavigateAction implements Action {
   readonly type = 'WINNER_FOUND_NAVIGATE';
 }
 
-export class LoserSaveAction implements Action {
-  constructor(public payload: number)  {}
-  readonly type = 'LOSER_SAVE';
-}
-
 export class WinnerSaveAction implements Action {
   readonly type = 'WINNER_SAVE';
+}
+
+export class LoadGameRequestAction implements Action {
+  constructor(public payload: LoadGameRequest) {}
+  readonly type = 'LOAD_GAME_REQUEST';
 }
 
 export type GameActions =
@@ -121,5 +122,5 @@ export type GameActions =
   | ShootRequestFailAction
   | ShootRequestSuccessAction
   | WinnerFoundNavigateAction
-  | LoserSaveAction
-  | WinnerSaveAction;
+  | WinnerSaveAction
+  | LoadGameRequestAction;
