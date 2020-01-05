@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import { CreatePlayerRequest } from '../models/create-player-request';
+import {Player} from '../models/player';
+import {filter, first, flatMap, map, take, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +23,21 @@ export class PlayerService {
 
   playerReady(playerId: number) {
     return this.http.post<number>(this.playerReadyUrl + playerId, null);
+  }
+
+  getWinner(playerInfos$: Observable<Player[]>): Observable<Player> {
+    return playerInfos$.pipe(
+      flatMap(player => player),
+      filter(player => player !== undefined),
+      filter(player => player.winner),
+      tap(player => console.log(player)));
+  }
+
+  isLoser(playerId: number, playersInfos$: Observable<Player[]>): Observable<Player> {
+    return playersInfos$.pipe(
+      flatMap(player => player),
+      filter(player => player !== undefined),
+      filter(player => player.id === playerId
+                && player.loser));
   }
 }

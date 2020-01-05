@@ -4,19 +4,31 @@ import { Effect, ofType, Actions } from '@ngrx/effects';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  GameCreatedAction, JoinGameAction, JoinGameRequestAction,
+  GameCreatedAction,
+  GameStatusRequestAction,
+  GameStatusRequestSuccessAction,
+  JoinGameAction,
+  JoinGameRequestAction, LoadGameRequestAction,
   PlayerCreatedAction,
   PlayerReadyRequestAction,
   PlayerReadyRequestFailAction,
   PlayerReadySuccessAction,
   PlayersToPlayersReadyPollAction,
-  PlayersToPlayersReadyPollSuccessAction
+  PlayersToPlayersReadyPollSuccessAction,
+  ShootRequestAction,
+  ShootRequestFailAction,
+  ShootRequestSuccessAction
 } from './game.actions';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
 import { PlayerService } from '../../services/player.service';
 import { of } from 'rxjs';
-import {InitialiseGridAction} from '../grid/grid.actions';
+import {InitialiseGridAction, RenderHitPosition} from '../grid/grid.actions';
+import {NavigationService} from '../../services/navigation.service';
+import {GetThisPlayersInfoService} from '../../services/get-this-players-info.service';
+
+
+export var thisPlayerId: number;
 
 @Injectable()
 export class GameEffects {
@@ -24,7 +36,8 @@ export class GameEffects {
     private actions$: Actions,
     private gameService: GameService,
     private pollingService: PollingService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private navigationService: NavigationService
   ) {}
 
   @Effect()
@@ -72,12 +85,53 @@ export class GameEffects {
   @Effect()
   public readyToGameRequest$ = this.actions$.pipe(
     ofType<PlayerReadyRequestAction>('PLAYER_READY'),
-    map(action => {
-      console.log('readyToGame effect called');
-      return action.payload;
-    }),
-    switchMap(playerId => this.playerService.playerReady(playerId)),
+    map(action => action.payload),
+    switchMap(playerId => this.playerService.playerReady(playerId).pipe(
     map(_ => new PlayerReadySuccessAction()),
-    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))
+    catchError(err => of(new PlayerReadyRequestFailAction(err.toString())))))
   );
+
+  @Effect()
+  public gameStatusRequest$ = this.actions$.pipe(
+    ofType<GameStatusRequestAction>('GAME_STATUS_REQUEST'),
+    switchMap(action => {
+      thisPlayerId = action.payload.playerId;
+      return this.pollingService.pollForGameStatus(action.payload);
+    }),
+    mergeMap(gameStatusResponse => {
+        const getThisPlayersInfoService: GetThisPlayersInfoService = new GetThisPlayersInfoService();
+        const playerInGameInfo = getThisPlayersInfoService.getPlayerInfo(thisPlayerId, gameStatusResponse.playerInGameInfos)
+        return [
+          new GameStatusRequestSuccessAction(gameStatusResponse),
+          new RenderHitPosition(playerInGameInfo)];
+      }
+    )
+  );
+
+  @Effect()
+  public shootRequest$ = this.actions$.pipe(
+    ofType<ShootRequestAction>('SHOOT_REQUEST'),
+    map(action => {console.log('Shoot request called.'); return action.payload}),
+    switchMap(shootRequest => this.gameService.shootRequest(shootRequest).pipe(
+    map(_ => new ShootRequestSuccessAction()),
+    catchError(err => of(new ShootRequestFailAction(err.toString())))))
+  );
+
+  // @Effect()
+  // public loadGameRequest$ = this.actions$.pipe(
+  //   ofType<LoadGameRequestAction>('LOAD_GAME_REQUEST'),
+  //   map(action => {console.log('Load Request called.'); return action.payload}),
+  //   switchMap(loadGameRequest => this.gameService.loadGame(loadGameRequest).pipe(
+  //     map(_ => new ShootRequestSuccessAction()),
+  //     catchError(err => of(new ShootRequestFailAction(err.toString())))))
+  // );
+
+  // @Effect()
+  // public winnerFoundNavigate$ = this.actions$.pipe(
+  //   ofType<WinnerFoundNavigateAction>('WINNER_FOUND_NAVIGATE'),
+  //   map(action => {
+  //     // this.navigationService.navigate('/winner-screen');
+  //     return new LoserSaveAction(action.payload);
+  //   }
+  // ));
 }

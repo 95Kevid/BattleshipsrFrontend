@@ -3,10 +3,25 @@ import { CreateGameRequest } from '../../models/create-game-request';
 import { CreatePlayerRequest } from '../../models/create-player-request';
 import {JoinGameRequest} from '../../models/join-game-request';
 import {JoinGameResponse} from '../../models/join-game-response';
+import {GameStatusResponse} from '../../models/game-status-response';
+import {ShootRequest} from '../../models/shoot-request';
+import {GameStatusRequest} from '../../models/game-status-request';
+import {Player} from '../../models/player';
+import {LoadGameRequest} from '../../models/LoadGameRequest';
 
 export class PlayersToPlayersReadyPollAction implements Action {
   constructor(public payload: number) {}
   readonly type = 'PLAYERS_TO_PLAYERS_READY_REQUEST';
+}
+
+export class GameStatusRequestAction implements Action {
+  constructor(public payload: GameStatusRequest) {}
+  readonly type = 'GAME_STATUS_REQUEST';
+}
+
+export class GameStatusRequestSuccessAction implements Action {
+  constructor(public payload: GameStatusResponse) {}
+  readonly type = 'GAME_STATUS_REQUEST_SUCCESS';
 }
 
 export class PlayersToPlayersReadyPollSuccessAction implements Action {
@@ -31,7 +46,7 @@ export class JoinGameRequestAction implements Action {
 
 export class JoinGameAction implements Action {
   constructor(public payload: JoinGameResponse) {}
-  readonly type = 'JOIN_GAME_REQUEST';
+  readonly type = 'JOIN_GAME';
 }
 export class PlayerCreatedAction implements Action {
   constructor(public payload: number) {}
@@ -62,6 +77,34 @@ export class UpdateOrdersAction implements Action {
   readonly type = 'UPDATE_ORDERS';
 }
 
+export class ShootRequestAction implements Action {
+  constructor(public payload: ShootRequest) {}
+  readonly type = 'SHOOT_REQUEST';
+}
+
+export class ShootRequestFailAction implements Action {
+  constructor(public payload: string) {}
+  readonly type = 'SHOOT_REQUEST_FAIL';
+}
+
+export class ShootRequestSuccessAction implements Action {
+  readonly type = 'SHOOT_REQUEST_SUCCESS';
+}
+
+export class WinnerFoundNavigateAction implements Action {
+  constructor(public payload: Player) {}
+  readonly type = 'WINNER_FOUND_NAVIGATE';
+}
+
+export class WinnerSaveAction implements Action {
+  readonly type = 'WINNER_SAVE';
+}
+
+export class LoadGameRequestAction implements Action {
+  constructor(public payload: LoadGameRequest) {}
+  readonly type = 'LOAD_GAME_REQUEST';
+}
+
 export type GameActions =
   | CreateGameRequestAction
   | GameCreatedAction
@@ -73,4 +116,11 @@ export type GameActions =
   | PlayerReadySuccessAction
   | PlayerReadyRequestFailAction
   | UpdateOrdersAction
-  | JoinGameAction;
+  | JoinGameAction
+  | GameStatusRequestSuccessAction
+  | ShootRequestAction
+  | ShootRequestFailAction
+  | ShootRequestSuccessAction
+  | WinnerFoundNavigateAction
+  | WinnerSaveAction
+  | LoadGameRequestAction;

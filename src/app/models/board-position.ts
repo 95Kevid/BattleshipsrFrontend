@@ -1,10 +1,11 @@
-export class Cell {
+export class BoardPosition {
+  id?: number;
   col: string;
   row: number;
-  colour: string;
   hit: boolean;
+  colour?: string;
 
-  public equals(cell: Cell) {
+  public equals(cell: BoardPosition) {
     return cell.col === this.col && cell.row === this.row;
   }
 }

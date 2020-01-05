@@ -1,0 +1,7 @@
+<div id="shootingBox">
+  <form [formGroup]="formGroup" (submit)="onSubmit()">
+    <label>col</label><input id="col" type="text" formControlName="col" />
+    <label>row</label><input type="text" id="row" formControlName="row" />
+    <button type="submit" id="fireButton">Fire!</button>
+  </form>
+</div>

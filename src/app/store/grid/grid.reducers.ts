@@ -1,5 +1,5 @@
 import { Row } from '../../models/row';
-import { Cell } from '../../models/cell';
+import { BoardPosition } from '../../models/board-position';
 import { GridActions } from './grid.actions';
 import { GridParameters } from '../../models/gridParameters';
 
@@ -17,12 +17,12 @@ export const initialGridState: GridState = {
   gridSize: 0
 };
 
-function renderShip(state: GridState, occupiedBoardPositions: Cell[]) {
+function renderShip(state: GridState, occupiedBoardPositions: BoardPosition[]) {
   const outputState = { ...state };
   for (const shipCell of occupiedBoardPositions) {
-    outputState.tableRows[shipCell.row - 1].cells[
+    outputState.tableRows[shipCell.row - 1].boardPositions[
       shipCell.col.charCodeAt(0) - 65
-    ].colour = 'pink';
+    ].colour = occupiedBoardPositions[0].colour;
   }
   return outputState;
 }
@@ -43,6 +43,20 @@ export function gridReducers(
     case 'RENDER_SHIP': {
       return renderShip(state, action.payload.occupiedBoardPositions);
     }
+    case 'RENDER_HIT_POSITION': {
+      const newState: GridState = { ...state};
+      newState.tableRows.map(row => row.boardPositions).map(boardPositions => {
+        boardPositions.forEach(position => {
+          action.payload.shotPositions.forEach(shotPosition => {
+            if (shotPosition.row === position.row + 1
+              && shotPosition.col === position.col) {
+              position.colour = 'red';
+            }
+          });
+        });
+      })
+      return newState;
+    }
     default: {
       return state;
     }
@@ -59,9 +73,9 @@ function initialiseGrid(gridSize: number): GridParameters {
   }
 
   for (let i = 0; i < gridSize; i++) {
-    const cells: Cell[] = [];
+    const boardPositions: BoardPosition[] = [];
     for (let j = 0; j < gridSize; j++) {
-      const cell: Cell = {
+      const cell: BoardPosition = {
         col: gridParameters.tableHeaders[j].toString(),
         row: i,
         colour: 'blue',
@@ -70,9 +84,11 @@ function initialiseGrid(gridSize: number): GridParameters {
           return c.col === cell.col && c.row === cell.row;
         }
       };
-      cells[j] = cell;
+      boardPositions[j] = cell;
     }
-    gridParameters.tableRows[i] = new Row(cells);
+    gridParameters.tableRows[i] = new Row(boardPositions);
   }
   return gridParameters;
 }
+
+

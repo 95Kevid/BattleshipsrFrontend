@@ -1,8 +1,10 @@
-import { Cell } from './cell';
+import { BoardPosition } from './board-position';
+import {ShipType} from './ship-type';
 
 export class Ship {
-  occupiedBoardPositions: Cell[];
+  occupiedBoardPositions: BoardPosition[];
+  type: ShipType;
   orient: string;
   length: number;
-  sunk: boolean;
+  isSunk: boolean;
 }

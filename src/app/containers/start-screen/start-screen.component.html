@@ -1,9 +1,12 @@
 <app-current-order-box [orders$]="orders$"></app-current-order-box>
-<button (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">
+<button id="outerCreateGameButton" (click)="createGameButtonClicked()" [disabled]="showJoinGameMenu">
   Create Game
 </button>
-<button (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
+<button id="outerJoinGameButton" (click)="joinGameButtonClicked()" [disabled]="showGameCreationMenu">
   Join Game
+</button>
+<button id="outerLoadGameButton" (click)="loadGameButtonClicked()" [disabled]="showLoadGameMenu">
+  Load Game
 </button>
 <app-create-game-box
   *ngIf="showGameCreationMenu"
@@ -11,6 +14,7 @@
   (createGameEvent)="createGame($event)"
 ></app-create-game-box>
 <app-join-game-box *ngIf="showJoinGameMenu" (joinGameRequest$)="joinGame($event)"></app-join-game-box>
+<app-load-game-box *ngIf="showLoadGameMenu" (loadGameRequest$)="loadGame($event)"></app-load-game-box>
 <app-create-player-box
   *ngIf="showPlayerCreationMenu"
   (createPlayerRequest)="createPlayer($event)"
