@@ -23,9 +23,10 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { PollingService } from '../../services/polling.service';
 import { PlayerService } from '../../services/player.service';
 import { of } from 'rxjs';
-import {InitialiseGridAction, RenderHitPosition} from '../grid/grid.actions';
+import { InitialiseGameArena, RenderHitPosition } from '../game-arena/game-arena.actions';
 import {NavigationService} from '../../services/navigation.service';
 import {GetThisPlayersInfoService} from '../../services/get-this-players-info.service';
+import { GameArenaService } from '../../services/game-arena.service';
 
 
 export var thisPlayerId: number;
@@ -37,6 +38,7 @@ export class GameEffects {
     private gameService: GameService,
     private pollingService: PollingService,
     private playerService: PlayerService,
+    private gameArenaService: GameArenaService,
     private navigationService: NavigationService
   ) {}
 
@@ -57,7 +59,10 @@ export class GameEffects {
     switchMap(createGameRequest =>
       this.gameService.createGame(createGameRequest)
     ),
-    map(gameId => new GameCreatedAction(gameId))
+    mergeMap(createGameResponse => [
+      new GameCreatedAction(createGameResponse.gameId),
+      new InitialiseGameArena(createGameResponse.gameArenaSize)
+    ])
   );
 
   @Effect()
@@ -68,11 +73,12 @@ export class GameEffects {
       this.gameService.joinGame(joinGameRequest)
     ),
     mergeMap(joinGameResponse => [
-      new JoinGameAction(joinGameResponse),
-      new InitialiseGridAction(joinGameResponse.gridSize)])
+        new InitialiseGameArena(joinGameResponse.gridSize),
+        new JoinGameAction(joinGameResponse)
+       ])
   );
 
-  @Effect()
+ @Effect()
   public createPlayerRequest$ = this.actions$.pipe(
     ofType<CreatePlayerRequestAction>('CREATE_PLAYER'),
     map(action => action.payload),
@@ -106,7 +112,7 @@ export class GameEffects {
           new RenderHitPosition(playerInGameInfo)];
       }
     )
-  );
+  )
 
   @Effect()
   public shootRequest$ = this.actions$.pipe(

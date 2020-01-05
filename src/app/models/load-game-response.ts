@@ -1,4 +1,4 @@
-export class LoadGameRequest {
+export class LoadGameResponse {
   gameId: number;
   playerId: number;
 }

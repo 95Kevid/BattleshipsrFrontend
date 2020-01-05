@@ -1,23 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {GameService} from '../../services/game.service';
-import {PlayerService} from '../../services/player.service';
-import {CreateGameRequest} from '../../models/create-game-request';
-import {Store} from '@ngrx/store';
-import {InitialiseGridAction} from '../../store/grid/grid.actions';
-import {PollingService} from '../../services/polling.service';
+import { Component, OnInit } from '@angular/core';
+import { GameService } from '../../services/game.service';
+import { PlayerService } from '../../services/player.service';
+import { CreateGameRequest } from '../../models/create-game-request';
+import { Store } from '@ngrx/store';
+import { GameArenaParameterUpdate } from '../../store/game-arena/game-arena.actions';
+import { PollingService } from '../../services/polling.service';
 import {
   CreateGameRequestAction,
   CreatePlayerRequestAction,
-  JoinGameRequestAction, LoadGameRequestAction,
+  JoinGameRequestAction,
+  LoadGameRequestAction,
   PlayerReadyRequestAction,
   PlayersToPlayersReadyPollAction,
   UpdateOrdersAction
 } from '../../store/game/game.actions';
-import {Observable} from 'rxjs';
-import {AppState} from '../../store';
-import {JoinGameRequest} from '../../models/join-game-request';
-import {NavigationService} from '../../services/navigation.service';
-import {LoadGameRequest} from '../../models/LoadGameRequest';
+import { Observable } from 'rxjs';
+import { AppState } from '../../store';
+import { JoinGameRequest } from '../../models/join-game-request';
+import { NavigationService } from '../../services/navigation.service';
+import { LoadGameResponse } from '../../models/load-game-response';
+import { GameArenaService } from '../../services/game-arena.service';
+import { GameArenaParameters } from '../../models/game-arena-parameters';
 
 @Component({
   selector: 'app-game-control',
@@ -28,6 +31,7 @@ export class StartScreenComponent implements OnInit {
   private gameService: GameService;
   private createPlayerService: PlayerService;
   private navigationService: NavigationService;
+  private gameArenaService: GameArenaService;
   private store: Store<AppState>;
   private pollingService: PollingService;
   private playersReady$: Observable<number>;
@@ -42,12 +46,14 @@ export class StartScreenComponent implements OnInit {
     createPlayerService: PlayerService,
     store: Store<AppState>,
     pollingService: PollingService,
+    gameArenaService: GameArenaService,
     navigationService: NavigationService
   ) {
     this.gameService = gameService;
     this.createPlayerService = createPlayerService;
     this.store = store;
     this.pollingService = pollingService;
+    this.gameArenaService = gameArenaService;
     this.navigationService = navigationService;
   }
 
@@ -69,19 +75,21 @@ export class StartScreenComponent implements OnInit {
       state => state.gameState.playersReady
     );
     this.orders$ = this.store.select(state => state.gameState.currentOrders);
-
-    this.gameService.allPlayersReady()
-      .subscribe((result: boolean) => {
-        if (result) {
-          console.log('Navigate to shooting screen');
-          this.navigationService.navigate('/shooting');
-        }
-      });
+    this.gameService.allPlayersReady().subscribe((result: boolean) => {
+      if (result) {
+        console.log('Navigate to shooting screen');
+        this.navigationService.navigate('/shooting');
+      }
+    });
   }
 
   createGameButtonClicked() {
     this.showGameCreationMenu = true;
-    this.store.dispatch(new UpdateOrdersAction('Enter number of players and the size of the game grid (6 - 26)'));
+    this.store.dispatch(
+      new UpdateOrdersAction(
+        'Enter number of players and the size of the game game-arena (6 - 26)'
+      )
+    );
   }
 
   joinGameButtonClicked() {
@@ -90,7 +98,6 @@ export class StartScreenComponent implements OnInit {
 
   createGame(createGameRequest: CreateGameRequest) {
     this.showPlayerCreationMenu = true;
-    this.store.dispatch(new InitialiseGridAction(createGameRequest.gridSize));
     this.store.dispatch(new CreateGameRequestAction(createGameRequest));
     this.store.dispatch(new UpdateOrdersAction('Enter the your name.'));
     this.gameId$.subscribe(state => (this.gameId = state));
@@ -105,7 +112,9 @@ export class StartScreenComponent implements OnInit {
     );
     this.showShipPlacerMenu = true;
     this.showGrid = true;
-    this.store.dispatch(new UpdateOrdersAction('Place your ships and click start.'));
+    this.store.dispatch(
+      new UpdateOrdersAction('Place your ships and click start.')
+    );
   }
 
   pollForPlayersToPlayersReady() {
@@ -116,7 +125,9 @@ export class StartScreenComponent implements OnInit {
     let playerId: number;
     this.playerId$.subscribe(pid => (playerId = pid));
     this.store.dispatch(new PlayerReadyRequestAction(playerId));
-    this.store.dispatch(new UpdateOrdersAction('Await other players to join...'));
+    this.store.dispatch(
+      new UpdateOrdersAction('Await other players to join...')
+    );
   }
 
   joinGame(joinGameRequest: JoinGameRequest) {
@@ -125,7 +136,7 @@ export class StartScreenComponent implements OnInit {
     this.showShipPlacerMenu = true;
   }
 
-  loadGame(loadGameRequest: LoadGameRequest) {
+  loadGame(loadGameRequest: LoadGameResponse) {
     this.store.dispatch(new LoadGameRequestAction(loadGameRequest));
   }
 

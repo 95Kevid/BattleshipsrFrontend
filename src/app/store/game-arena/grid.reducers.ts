@@ -1,7 +1,7 @@
 import { Row } from '../../models/row';
 import { BoardPosition } from '../../models/board-position';
-import { GridActions } from './grid.actions';
-import { GridParameters } from '../../models/gridParameters';
+import { GameArenaActions } from './game-arena.actions';
+import { GameArenaParameters } from '../../models/game-arena-parameters';
 
 export interface GridState {
   tableRows: Row[];
@@ -29,11 +29,11 @@ function renderShip(state: GridState, occupiedBoardPositions: BoardPosition[]) {
 
 export function gridReducers(
   state: GridState = initialGridState,
-  action: GridActions
+  action: GameArenaActions
 ) {
   switch (action.type) {
-    case 'INITIALISE_GRID': {
-      const gridParameters = initialiseGrid(action.payload);
+    case 'UPDATE_GAME_ARENA_PARAMETERS': {
+      const gridParameters: GameArenaParameters = action.payload;
       return {
         ...state,
         ...gridParameters,
@@ -62,33 +62,3 @@ export function gridReducers(
     }
   }
 }
-
-function initialiseGrid(gridSize: number): GridParameters {
-  const gridParameters: GridParameters = new GridParameters();
-  gridParameters.tableHeaders = [];
-  gridParameters.tableRows = [];
-
-  for (let i = 0; i < gridSize; i++) {
-    gridParameters.tableHeaders[i] = String.fromCharCode(65 + i);
-  }
-
-  for (let i = 0; i < gridSize; i++) {
-    const boardPositions: BoardPosition[] = [];
-    for (let j = 0; j < gridSize; j++) {
-      const cell: BoardPosition = {
-        col: gridParameters.tableHeaders[j].toString(),
-        row: i,
-        colour: 'blue',
-        hit: false,
-        equals: c => {
-          return c.col === cell.col && c.row === cell.row;
-        }
-      };
-      boardPositions[j] = cell;
-    }
-    gridParameters.tableRows[i] = new Row(boardPositions);
-  }
-  return gridParameters;
-}
-
-
