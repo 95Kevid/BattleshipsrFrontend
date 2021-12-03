@@ -18,7 +18,7 @@ export const initialGridState: GridState = {
 };
 
 function renderShip(state: GridState, occupiedBoardPositions: BoardPosition[]) {
-  const outputState = { ...state };
+  const outputState = JSON.parse(JSON.stringify(state));
   for (const shipCell of occupiedBoardPositions) {
     outputState.tableRows[shipCell.row - 1].boardPositions[
       shipCell.col.charCodeAt(0) - 65

@@ -4,7 +4,8 @@ import {ShipType} from './ship-type';
 export class Ship {
   occupiedBoardPositions: BoardPosition[];
   type: ShipType;
-  orient: string;
+  boardPosition: BoardPosition;
+  orientation: string;
   length: number;
   isSunk: boolean;
 }

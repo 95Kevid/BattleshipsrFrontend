@@ -17,8 +17,10 @@ export function shipReducers(
   switch (action.type) {
     case actions.ADD_SHIP_SUCCESS: {
       const newState: ShipState = { ...state };
-      const ships: Ship[] = initialShipState.ships;
+      const ships: Ship[] = [ ...initialShipState.ships ];
       console.log('Ship reducer called');
+      console.log(action.payload);
+      console.log(ships);
       ships.push(action.payload);
       newState.ships = ships;
       return newState;

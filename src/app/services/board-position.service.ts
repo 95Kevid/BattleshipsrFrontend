@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BoardPosition} from '../models/board-position';
-import {forEach} from '@angular/router/src/utils/collection';
+
 
 @Injectable({
   providedIn: 'root'
