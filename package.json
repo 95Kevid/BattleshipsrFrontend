@@ -40,7 +40,7 @@
     "ag-grid-community": "^19.1.4",
     "core-js": "^2.5.4",
     "jquery": "^3.4.1",
-    "karma": "^4.0.0",
+    "karma": "^6.4.1",
     "net": "^1.0.2",
     "rxjs": "~6.3.3",
     "sockjs-client": "^1.4.0",
